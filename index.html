@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-resQ Systems - Ultimate Advanced Safeguard</title>
+    <style>
+        :root {
+            --bg-base: #04060d;
+            --bg-card: #0a0e1c;
+            --primary: #00ffb3;
+            --primary-glow: rgba(0, 255, 179, 0.2);
+            --admin-color: #ffaa00;
+            --text-main: #f8fafc;
+            --text-muted: #64748b;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            margin: 0;
+            padding: 30px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { font-size: 2.8rem; margin: 0; color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); }
+        .badge { border: 1px solid var(--primary); color: var(--primary); padding: 4px 18px; border-radius: 20px; font-size: 0.85rem; display: inline-block; margin-top: 10px; font-weight: bold; background: rgba(0,255,179,0.03); }
+        .main-wrapper { width: 100%; max-width: 600px; }
+        .card { background: var(--bg-card); border-radius: 14px; padding: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.03); margin-bottom: 20px; }
+        .tabs { display: flex; background: rgba(0,0,0,0.4); border-radius: 8px; padding: 4px; margin-bottom: 20px; }
+        .tab-btn { flex: 1; background: none; border: none; color: var(--text-muted); padding: 12px; cursor: pointer; font-weight: bold; border-radius: 6px; }
+        .tab-btn.active { background-color: var(--bg-base); color: var(--primary); box-shadow: 0 0 8px rgba(0,0,0,0.5); }
+        .field { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #94a3b8; }
+        input, textarea, select { width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.3); border: 1px solid #1e293b; padding: 12px; border-radius: 6px; color: white; font-size: 0.95rem; }
+        textarea { height: 90px; resize: none; }
+        input:focus, textarea:focus { outline: none; border-color: var(--primary); }
+        .btn { width: 100%; background: var(--primary); color: #000; border: none; padding: 14px; font-size: 1.05rem; font-weight: 700; border-radius: 6px; cursor: pointer; box-shadow: 0 4px 12px var(--primary-glow); }
+        .admin-section { display: none; border: 1px solid var(--admin-color); padding: 20px; border-radius: 10px; background: rgba(255,170,0,0.02); }
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
+        .data-table th, .data-table td { border: 1px solid #1e293b; padding: 8px; text-align: left; }
+        .data-table th { background: rgba(0,0,0,0.4); color: var(--admin-color); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>v-resQ Systems</h1>
+        <div class="badge">FOUNDER & CEO: [Her Name Here]</div>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="card" id="userBlock">
+            <div class="tabs">
+                <button id="t1" class="tab-btn active" onclick="switchUserTab('register')">Deploy Safeguard</button>
+                <button id="t2" class="tab-btn" onclick="switchUserTab('status')">7-Day Verification Portal</button>
+                <button id="t3" class="tab-btn" onclick="switchUserTab('help')">Account Recovery Support</button>
+            </div>
+
+            <!-- REGISTRATION & VAULT SETUP -->
+            <div id="registerPanel">
+                <div class="field">
+                    <label>SELECT AUTHENTICATION METHOD:</label>
+                    <select id="authType" onchange="toggleAuthInput()">
+                        <option value="phone">Mobile Number OTP Loop</option>
+                        <option value="email">Email Verification Routing</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label id="authLabel">ENTER REGISTERED MOBILE NUMBER:</label>
+                    <input type="text" id="userCredential" placeholder="e.g., +91 99999 88888">
+                </div>
+                <div class="field">
+                    <label>EMERGENCY PAYLOAD NOTE (Locker locations, Passwords, Secret messages):</label>
+                    <textarea id="payloadData" placeholder="Enter highly confidential asset location parameters..."></textarea>
+                </div>
+                <div class="field">
+                    <label>NOMINEE DESTINATION CONTACT (Email/Phone):</label>
+                    <input type="text" id="nomineeTarget" placeholder="family-member@email.com">
+                </div>
+                <button class="btn" onclick="simulatedRegister()">DEPLOY MATRIX & DISPATCH INSTANT OTP</button>
+            </div>
+
+            <!-- 7-DAY STATUS CHECK -->
+            <div id="statusPanel" style="display:none;">
+                <p style="font-size:0.9rem; color:#94a3b8; text-align:center;">⏳ Automated Dead-Man Switch Loop active. You must check-in every 7 Days.</p>
+                <div style="background:rgba(0,0,0,0.3); padding:15px; border-radius:6px; text-align:center; margin-bottom:15px; border:1px solid #1e293b;">
+                    <div style="font-size:0.8rem; color:var(--text-muted);">TIME REMAINING UNTIL NOMINEE ROUTING AUTOMATION</div>
+                    <div style="font-size:1.8rem; font-weight:bold; color:#ffaa00; margin:5px 0;">5 Days, 14 Hours, 22 Mins</div>
+                </div>
+                <button class="btn" style="background: linear-gradient(135deg, #00ffb3, #00aa77);" onclick="alert('Verification Loop Renewed! Next check-in required in 7 Days.')">✔ I AM SAFE & ACTIVE (RESET WEEKLY TIMER)</button>
+            </div>
+
+            <!-- HELP SUPPORT TICKETS -->
+            <div id="helpPanel" style="display:none;">
+                <div class="field">
+                    <label>ENTER YOUR CONTACT DETAILS:</label>
+                    <input type="text" id="helpContact" placeholder="Your Email or Phone number">
+                </div>
+                <div class="field">
+                    <label>DESCRIBE YOUR QUERY / RECOVERY REQUEST:</label>
+                    <textarea id="helpQuery" placeholder="Lost access to device, need account audit help..."></textarea>
+                </div>
+                <button class="btn" onclick="alert('Support ticket securely transmitted to Admin control chamber successfully.')">SUBMIT TICKETS TO STEALTH ADMIN SHIELD</button>
+            </div>
+        </div>
+    <div class="header">
+        <h1>v-resQ Systems</h1>
+        <div class="badge">FOUNDER & CEO: ASTHA DUBEY</div>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="card" id="userBlock">
+            <div class="tabs">
+                <button id="t1" class="tab-btn active" onclick="switchUserTab('register')">Deploy Safeguard</button>
+                <button id="t2" class="tab-btn" onclick="switchUserTab('status')">7-Day Verification Portal</button>
+                <button id="t3" class="tab-btn" onclick="switchUserTab('help')">Account Recovery Support</button>
+            </div>
+
+            <!-- REGISTRATION & VAULT SETUP -->
+            <div id="registerPanel">
+                <div class="field">
+                    <label>SELECT AUTHENTICATION METHOD:</label>
+                    <select id="authType" onchange="toggleAuthInput()">
+                        <option value="phone">Mobile Number OTP Loop</option>
+                        <option value="email">Email Verification Routing</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label id="authLabel">ENTER REGISTERED MOBILE NUMBER:</label>
+                    <input type="text" id="userCredential" placeholder="e.g., +91 99999 88888">
+                </div>
+                <div class="field">
+                    <label>EMERGENCY PAYLOAD NOTE (Locker locations, Passwords, Secret messages):</label>
+                    <textarea id="payloadData" placeholder="Enter highly confidential asset location parameters..."></textarea>
+                </div>
+                <div class="field">
+                    <label>NOMINEE DESTINATION CONTACT (Email/Phone):</label>
+                    <input type="text" id="nomineeTarget" placeholder="family-member@email.com">
+                </div>
+                <button class="btn" onclick="simulatedRegister()">DEPLOY MATRIX & DISPATCH INSTANT OTP</button>
+            </div>
+
+            <!-- 7-DAY STATUS CHECK -->
+            <div id="statusPanel" style="display:none;">
+                <p style="font-size:0.9rem; color:#94a3b8; text-align:center;">⏳ Automated Dead-Man Switch Loop active. You must check-in every 7 Days.</p>
+                <div style="background:rgba(0,0,0,0.3); padding:15px; border-radius:6px; text-align:center; margin-bottom:15px; border:1px solid #1e293b;">
+                    <div style="font-size:0.8rem; color:var(--text-muted);">TIME REMAINING UNTIL NOMINEE ROUTING AUTOMATION</div>
+                    <div style="font-size:1.8rem; font-weight:bold; color:#ffaa00; margin:5px 0;">5 Days, 14 Hours, 22 Mins</div>
+                </div>
+                <button class="btn" style="background: linear-gradient(135deg, #00ffb3, #00aa77);" onclick="alert('Verification Loop Renewed! Next check-in required in 7 Days.')">✔ I AM SAFE & ACTIVE (RESET WEEKLY TIMER)</button>
+            </div>
+
+            <!-- HELP SUPPORT TICKETS -->
+            <div id="helpPanel" style="display:none;">
+                <div class="field">
+                    <label>ENTER YOUR CONTACT DETAILS:</label>
+                    <input type="text" id="helpContact" placeholder="Your Email or Phone number">
+                </div>
+                <div class="field">
+                    <label>DESCRIBE YOUR QUERY / RECOVERY REQUEST:</label>
+                    <textarea id="helpQuery" placeholder="Lost access to device, need account audit help..."></textarea>
+                </div>
+                <button class="btn" onclick="alert('Support ticket securely transmitted to Admin control chamber successfully.')">SUBMIT TICKETS TO STEALTH ADMIN SHIELD</button>
+            </div>
+        </div>
+              <!-- SECRET ADMINISTRATIVE GATEWAY ENTRY -->
+        <div style="text-align: center; margin-top: 10px;">
+            <span style="font-size: 0.7rem; color: #111424; cursor: pointer;" onclick="revealStealthAdmin()">[🔒 Admin Entrance Matrix]</span>
+        </div>
+
+        <!-- HIDDEN ADMINISTRATIVE DASHBOARD CONTROL ROOM -->
+        <div class="card admin-section" id="adminBlock">
+            <h3 style="color: var(--admin-color); margin-top: 0; letter-spacing: 1px;">⚙ SUPER-ADMIN STEALTH MANAGEMENT CONTROL</h3>
+            <p style="font-size:0.8rem; color:var(--text-muted);">Root level analytics access dashboard. Encrypted fraud shields active.</p>
+            
+            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; text-align:center; margin-bottom:20px;">
+                <div style="background:#111428; padding:10px; border-radius:6px; border:1px solid #222;"><div style="color:var(--admin-color); font-weight:bold; font-size:1.2rem;">1,482</div><div style="font-size:0.7rem; color:var(--text-muted);">Total User Nodes</div></div>
+                <div style="background:#111428; padding:10px; border-radius:6px; border:1px solid #222;"><div style="color:#00ffcc; font-weight:bold; font-size:1.2rem;">98.4%</div><div style="font-size:0.7rem; color:var(--text-muted);">Weekly Check-In Rate</div></div>
+                <div style="background:#111428; padding:10px; border-radius:6px; border:1px solid #222;"><div style="color:#ff3e6c; font-weight:bold; font-size:1.2rem;">3</div><div style="font-size:0.7rem; color:var(--text-muted);">Pending Help Tickets</div></div>
+            </div>
+
+            <label style="color:var(--admin-color); font-weight:bold; font-size:0.85rem;">ANTI-SPAM SECURITY SYSTEM USER REGISTER:</label>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>User Credential</th>
+                        <th>IP Address</th>
+                        <th>7-Day Delivery Log</th>
+                        <th>Action / Anti-Fraud View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>+91 9845***120</td>
+                        <td>157.42.193.12</td>
+                        <td><span style="color:#00ff66;">✔ Active (Clicked Link)</span></td>
+                        <td><button style="font-size:0.7rem; padding:2px 5px; cursor:pointer;" onclick="alert('Anti-Scam System Check:\nPayload Content verified secure. No illegal activity logs detected.')">Audit Content</button></td>
+                    </tr>
+                    <tr>
+                        <td>rahul.sharma@email.com</td>
+                        <td>103.22.109.45</td>
+                        <td><span style="color:#ffaa00;">⏳ Alert Sent (No Response)</span></td>
+                        <td><button style="font-size:0.7rem; padding:2px 5px; cursor:pointer;" onclick="alert('Anti-Scam System Check:\nPayload Flagged Clear. Waiting for weekly automation expiration.')">Audit Content</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        function toggleAuthInput() {
+            const type = document.getElementById('authType').value;
+            document.getElementById('authLabel').innerText = type === 'phone' ? 'ENTER REGISTERED MOBILE NUMBER:' : 'ENTER REGISTERED EMAIL ADDRESS:';
+        }
+        function switchUserTab(tab) {
+            document.getElementById('t1').classList.remove('active'); document.getElementById('t2').classList.remove('active'); document.getElementById('t3').classList.remove('active');
+            document.getElementById('registerPanel').style.display = 'none'; document.getElementById('statusPanel').style.display = 'none'; document.getElementById('helpPanel').style.display = 'none';
+            if(tab==='register') { document.getElementById('t1').classList.add('active'); document.getElementById('registerPanel').style.display = 'block'; }
+            else if(tab==='status') { document.getElementById('t2').classList.add('active'); document.getElementById('statusPanel').style.display = 'block'; }
+            else { document.getElementById('t3').classList.add('active'); document.getElementById('helpPanel').style.display = 'block'; }
+        }
+        function simulatedRegister() {
+            const cred = document.getElementById('userCredential').value;
+            const data = document.getElementById('payloadData').value;
+            if(!cred || !data.trim()) { alert('Authentication Block: Complete credentials to initialize deployment loop.'); return; }
+            alert('✔ Verification OTP dispatch sequence initiated via secure nodes!\nLocal Session Isolation Complete.');
+            switchUserTab('status');
+        }
+        function revealStealthAdmin() {
+            const pass = prompt("ENTER SECRET SUPER-ADMIN PASSKEY MATRIX ENGINE KEYROUTE:");
+            if(pass === "admin123") { document.getElementById('adminBlock').style.display = 'block'; window.scrollTo(0,document.body.scrollHeight); }
+            else { alert("Unauthorized Entry Attempt intercepted. IP trace logged."); }
+        }
+    </script>
+</body>
+</html>    
