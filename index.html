@@ -29,214 +29,244 @@
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-base);
-            color: var(--text-main);
-            margin: 0; padding: 0;
-            transition: background 0.2s, color 0.2s;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: var(--bg-base); color: var(--text-main);
+            margin: 0; padding: 0; transition: background 0.2s, color 0.2s;
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center;
         }
         .global-notice {
             width: 100%; background: linear-gradient(90deg, #1f2937, #111827);
-            color: #38bdf8; text-align: center; padding: 12px;
-            font-size: 0.9rem; font-weight: 600; box-sizing: border-box;
-            display: none; border-bottom: 1px solid var(--border);
+            color: #38bdf8; text-align: center; padding: 12px; font-size: 0.9rem;
+            font-weight: 600; box-sizing: border-box; display: none; border-bottom: 1px solid var(--border);
         }
         .navbar {
-            width: 100%; max-width: 1200px; display: flex;
-            justify-content: space-between; align-items: center;
-            padding: 16px 24px; box-sizing: border-box;
-            border-bottom: 1px solid var(--border); background: var(--bg-card);
+            width: 100%; max-width: 1200px; display: flex; justify-content: space-between;
+            align-items: center; padding: 14px 24px; box-sizing: border-box;
+            border-bottom: 1px solid var(--border); background: var(--bg-card); position: sticky; top: 0; z-index: 99;
         }
-        .brand-title { font-weight: 800; font-size: 1.6rem; color: var(--primary); cursor: pointer; }
-        .nav-controls { display: flex; gap: 12px; align-items: center; }
+        .nav-left-group, .nav-right-group { display: flex; align-items: center; gap: 14px; }
+        .brand-title { font-weight: 800; font-size: 1.5rem; color: var(--primary); cursor: pointer; }
+        
+        .dropdown-shell { position: relative; display: inline-block; }
+        .dropdown-menu {
+            display: none; position: absolute; left: 0; top: 100%; background: var(--bg-card);
+            border: 1px solid var(--border); border-radius: 8px; width: 240px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); padding: 8px 0; z-index: 100;
+        }
+        .dropdown-item {
+            padding: 10px 16px; font-size: 0.88rem; font-weight: 600; color: var(--text-main);
+            cursor: pointer; display: block; text-decoration: none;
+        }
+        .dropdown-item:hover { background: var(--input-bg); color: var(--primary); }
+        .dropdown-shell:hover .dropdown-menu { display: block; }
+
         .btn-utility {
-            background: var(--bg-base); border: 1px solid var(--border);
-            color: var(--text-main); padding: 8px 16px; border-radius: 6px;
-            cursor: pointer; font-size: 0.85rem; font-weight: 600;
+            background: var(--input-bg); border: 1px solid var(--border); color: var(--text-main);
+            padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600;
         }
-        .slider-wrapper { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 0.75rem; color: var(--text-muted); }
-        .switch-shell { position: relative; display: inline-block; width: 44px; height: 22px; }
+        .slider-wrapper { display: flex; align-items: center; gap: 6px; font-weight: bold; font-size: 0.7rem; color: var(--text-muted); }
+        .switch-shell { position: relative; display: inline-block; width: 40px; height: 20px; }
         .switch-shell input { opacity: 0; width: 0; height: 0; }
         .slider-knob {
             position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #cbd5e1; transition: 0.2s; border-radius: 22px;
+            background-color: #cbd5e1; transition: 0.2s; border-radius: 20px;
         }
         .slider-knob:before {
-            position: absolute; content: ""; height: 14px; width: 14px;
-            left: 4px; bottom: 4px; background-color: white; transition: 0.2s; border-radius: 50%;
+            position: absolute; content: ""; height: 12px; width: 12px; left: 4px; bottom: 4px;
+            background-color: white; transition: 0.2s; border-radius: 50%;
         }
         input:checked + .slider-knob { background-color: #475569; }
-        input:checked + .slider-knob:before { transform: translateX(22px); background-color: var(--primary); }
+        input:checked + .slider-knob:before { transform: translateX(20px); background-color: var(--primary); }
         
-        .app-shell { width: 100%; max-width: 1200px; padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; }
+        .app-shell { width: 100%; max-width: 1200px; padding: 30px 24px; box-sizing: border-box; flex: 1; }
         .app-view { display: none; width: 100%; }
         .app-view.active { display: block; }
-        
         .grid-layout { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
         .col-12 { grid-column: span 12; }
         .col-8 { grid-column: span 8; }
         .col-4 { grid-column: span 4; }
+        .card { background: var(--bg-card); border-radius: 12px; padding: 28px; border: 1px solid var(--border); box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
         
-        .card { background: var(--bg-card); border-radius: 12px; padding: 24px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .field-group { margin-bottom: 16px; }
-        .field-group label { display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: var(--text-main); }
-        input, textarea, select {
-            width: 100%; box-sizing: border-box; background: var(--input-bg);
-            border: 1px solid var(--border); padding: 12px; border-radius: 6px;
-            color: var(--text-main); font-size: 0.95rem;
+        .footer-grid {
+            width: 100%; max-width: 1200px; border-top: 1px solid var(--border); background: var(--bg-card);
+            padding: 25px 24px; box-sizing: border-box; display: flex; justify-content: space-between;
+            align-items: center; flex-wrap: wrap; gap: 20px; margin-top: auto;
         }
-        textarea { height: 90px; resize: none; }
+        .social-link-wrapper { display: flex; gap: 16px; }
+        .social-anchor { font-size: 0.9rem; font-weight: 700; color: var(--text-muted); text-decoration: none; transition: 0.2s; }
+        .social-anchor:hover { color: var(--primary); }
+
+        .field-group { margin-bottom: 16px; }
+        .field-group label { display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; }
+        input, textarea, select {
+            width: 100%; box-sizing: border-box; background: var(--input-bg); border: 1px solid var(--border);
+            padding: 12px; border-radius: 6px; color: var(--text-main); font-size: 0.95rem;
+        }
+        textarea { height: 95px; resize: none; }
         input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
-        
         .btn-action {
-            width: 100%; background: var(--primary); color: white; border: none;
-            padding: 14px; font-size: 1rem; font-weight: 700; border-radius: 6px;
-            cursor: pointer; transition: background 0.15s;
+            width: 100%; background: var(--primary); color: white; border: none; padding: 14px;
+            font-size: 1rem; font-weight: 700; border-radius: 6px; cursor: pointer; transition: 0.15s;
         }
         .btn-action:hover { opacity: 0.95; }
-        .badge-link { display: inline-flex; align-items: center; border: 1px solid var(--border); padding: 4px 12px; border-radius: 16px; font-size: 0.8rem; text-decoration: none; color: var(--text-muted); font-weight: 600; }
+        .msg-item { border: 1px solid var(--border); padding: 16px; border-radius: 8px; margin-bottom: 12px; background: var(--input-bg); display: flex; justify-content: space-between; align-items: center; }
+        .msg-actions button { background: none; border: 1px solid var(--border); color: var(--text-main); padding: 6px 12px; border-radius: 6px; cursor: pointer; margin-left: 5px; font-size: 0.8rem; }
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.82rem; }
+        .data-table th, .data-table td { border: 1px solid var(--border); padding: 10px; text-align: left; }
+        .data-table th { background: rgba(0,0,0,0.03); color: var(--admin-color); }
         
-        .metric-card { background: var(--input-bg); padding: 16px; border-radius: 8px; border: 1px solid var(--border); text-align: center; }
-        .metric-val { font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-top: 4px; }
-        
-        @media (max-width: 900px) {
+        @media (max-width: 768px) {
+            .navbar { padding: 12px; }
             .col-8, .col-4 { grid-column: span 12; }
+            .footer-grid { flex-direction: column; text-align: center; padding: 20px; }
+            .nav-left-group { gap: 8px; }
         }
     </style>
 </head>
 <body>
     <div id="topBanner" class="global-notice"></div>
     <div class="navbar">
-        <div class="brand-title" onclick="appLink('/home')">resQ</div>
-        <div class="nav-controls">
+        <div class="nav-left-group">
+            <div class="brand-title" onclick="appLink('/home')">resQ</div>
+            <div class="dropdown-shell">
+                <button class="btn-utility" style="padding: 6px 12px; font-size: 0.8rem;">⚙️ Support & Help</button>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item" onclick="openSupportModal('recovery')">Account Recovery</div>
+                    <div class="dropdown-item" onclick="openSupportModal('feedback')">Send Feedback</div>
+                    <div class="dropdown-item" onclick="openSupportModal('suggestion')">Suggestions</div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-right-group">
+            <button class="btn-utility" onclick="toggleLanguage()" id="langBtn">हिन्दी</button>
             <div class="slider-wrapper">
-                <span>LIGHT</span>
+                <span>☀️ LT</span>
                 <label class="switch-shell">
                     <input type="checkbox" id="themeInputSlider" onchange="runThemeShift()" checked>
                     <span class="slider-knob"></span>
                 </label>
-                <span>DARK</span>
+                <span>DK 🌙</span>
             </div>
-            <button class="btn-utility" id="btnNavAuth" onclick="appLink('/auth')">Sign In</button>
+            <button class="btn-utility" id="btnNavAuth" onclick="appLink('/auth')" style="background:var(--primary); color:white; border:none;">Sign In</button>
         </div>
     </div>
 
     <div class="app-shell">
         
-        <!-- MAIN VIEW: /home -->
+        <!-- MODULE: HOME ARCHITECTURE -->
         <div id="view-home" class="app-view">
             <div class="grid-layout">
-                <div class="col-8">
-                    <div class="card">
-                        <h2 style="margin-top:0; font-size:1.6rem; font-weight:800;">Automated Family Protection Infrastructure</h2>
-                        <p style="line-height: 1.6; color: var(--text-muted); font-size: 0.95rem;">
-                            resQ limits digital asset isolation risks during standard real-world operational crises. The system allows users to secure vital local payloads—such as physical property configurations, emergency financial parameters, or critical credentials—safely inside the device sandbox. If the verification timer fails to execute, the infrastructure securely routes data keys to your nominees.
+                <div class="col-12">
+                    <div class="card" style="text-align: center; padding: 40px 20px;">
+                        <h2 id="lblLandingTitle" style="margin-top:0; font-size:2rem; font-weight:800;">Automated Family Protection Infrastructure</h2>
+                        <p id="lblLandingDesc" style="line-height: 1.7; color: var(--text-muted); font-size: 1rem; max-width: 800px; margin: 0 auto 30px auto;">
+                            resQ eliminates digital asset isolation risks during critical emergencies. The platform secures local payloads—such as financial parameters, physical locker positions, or credentials—locally inside your device sandbox. If the verification timer loop fails to execute, the system auto-routes information blocks to your nominee streams.
                         </p>
-                        <button class="btn-action" onclick="appLink('/auth')" style="max-width: 250px;">Initialize Secure Setup</button>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="card" style="border-top: 3px solid var(--admin-color);">
-                        <h3 style="margin-top:0; font-size:1.1rem; font-weight:700;">Account Recovery Assistance</h3>
-                        <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">Lost your authentication terminal or experiencing encryption lockouts? Transmit an audited ticket directly to the administration core.</p>
-                        <div class="field-group">
-                            
-                        </div>
-                        <div class="field-group">
-                            <textarea id="helpDesc" placeholder="Describe the operational recovery context..." style="height:60px;"></textarea>
-                        </div>
-                        <button class="btn-action" style="background:#475569; padding:10px; font-size:0.9rem;" onclick="dispatchHelpTicket()">Submit Recovery Ticket</button>
+                        <button class="btn-action" onclick="appLink('/auth')" id="btnGetStarted" style="max-width: 280px; font-size: 1.1rem;">Initialize Protection Engine</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- AUTH GATE VIEW: /auth (UNIFIED INTERFACE) -->
+        <!-- MODULE: UNIFIED LOGIN / SIGNUP SYSTEM -->
         <div id="view-auth" class="app-view">
             <div class="grid-layout">
                 <div class="col-12" style="display:flex; justify-content:center;">
-                    <div class="card" style="width:100%; max-width:450px;">
-                        <h3 style="margin-top:0; font-size:1.3rem; font-weight:800;" id="txtAuthHeader">Secure Vault Authentication</h3>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">New identities are registered automatically. Verified credentials switch to secure dashboards instantly.</p>
-                        
+                    <div class="card" style="width:100%; max-width:460px;">
+                        <h3 id="lblAuthTitle" style="margin-top:0; font-size:1.4rem; font-weight:800;">Secure Identity Authorization</h3>
+                        <p id="lblUnifiedInfo" style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">New vectors are registered automatically. Verified sessions unlock your safe workspace instantly.</p>
                         <div class="field-group">
-                            <label>Verification Gateway Medium</label>
+                            <label id="lblAuthMethod">Select Security Gateway Channel:</label>
                             <select id="authChannel" onchange="resetAuthPlaceholders()">
-                                <option value="phone">Secure Mobile Terminal (SMS Loop)</option>
-                                <option value="email">Encrypted Email Routing Node</option>
+                                <option value="phone">Mobile Secure SMS Routing Vector</option>
+                                <option value="email">Email TLS Encryption Node</option>
                             </select>
                         </div>
                         <div class="field-group">
-                            <label id="lblAuthInput">Enter Active Mobile String:</label>
+                            <label id="lblInputCredential">Enter Mobile String:</label>
                             <input type="text" id="authInputToken" placeholder="e.g., +91 9999988888">
                         </div>
-                        <button class="btn-action" onclick="executeGatewayOTPRequest()">Request Operational Session OTP</button>
+                        <button class="btn-action" onclick="executeGatewayOTPRequest()" id="btnSendOTP">Initialize Network & Dispatch OTP</button>
 
-                        <!-- ANTI-BRUTE FORCE CAPTCHA CHALLENGE PANEL -->
-                        <div id="captchaShell" style="display:none; margin-top:20px; padding:16px; border:1px solid var(--border); background:var(--input-bg); border-radius:6px;">
-                            <div style="font-size:0.85rem; color:#ffaa00; font-weight:700; margin-bottom:10px;" id="lblGatewayNotice">📡 ROUTING SECURE: OTP Dispatched via Serverless Gateway</div>
+                        <div id="captchaShell" style="display:none; margin-top:20px; padding:16px; border:1px dashed var(--primary); background:var(--input-bg); border-radius:8px;">
+                            <div style="font-size:0.85rem; color:#ffaa00; font-weight:700; margin-bottom:10px;" id="lblVerificationActive">📡 ROUTING SECURE: SMS Token Dispatched to Sandbox Gateway</div>
                             <div class="field-group">
-                                <label id="mathChallengeLabel" style="color:var(--admin-color); font-family:monospace;"></label>
-                                <input type="number" id="captchaResponseInput" placeholder="Solve the math puzzle to unblock rules">
+                                <label id="mathChallengeLabel" style="color:var(--admin-color); font-family:monospace; font-weight:bold;"></label>
+                                <input type="number" id="captchaResponseInput" placeholder="Solve challenge rules">
                             </div>
                             <div class="field-group">
                                 <label>Enter 6-Digit Received OTP:</label>
-                                <input type="text" id="receivedSessionOTP" style="text-align:center; font-size:1.2rem; letter-spacing:2px;">
+                                <input type="text" id="receivedSessionOTP" style="text-align:center; font-size:1.3rem; letter-spacing:3px; font-weight:bold;">
                             </div>
-                            <button class="btn-action" style="background:var(--text-main); color:var(--bg-card);" onclick="authorizeSystemAccessSession()">Verify & Authorize Grid Access</button>
+                            <button class="btn-action" style="background:var(--text-main); color:var(--bg-card);" onclick="authorizeSystemAccessSession()" id="btnVerifyAuth">Verify & Authorize Grid Access</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- USER PANEL VIEW: /dashboard -->
+        <!-- MODULE: SECURE DASHBOARD PORTAL -->
         <div id="view-dashboard" class="app-view">
             <div class="grid-layout">
                 <div class="col-8">
                     <div class="card">
-                        <div style="display:flex; justify-content:between; align-items:center; margin-bottom:20px; width:100%;">
-                            <h3 style="margin:0; font-size:1.3rem; font-weight:800; width:100%;">Encrypted Emergency Safeguard Configuration</h3>
-                            <button class="btn-utility" style="border-color:#ff3e6c; color:#ff3e6c;" onclick="terminateUserSession()">Sign Out</button>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                            <h3 style="margin:0; font-size:1.3rem; font-weight:800;" id="lblDashboardTitle">Secure Management Panel</h3>
+                            <button class="btn-utility" style="border-color:#ff3e6c; color:#ff3e6c; background:none;" onclick="terminateUserSession()" id="btnLogout">Sign Out</button>
                         </div>
-                        
                         <div class="field-group">
-                            <label>Secure Content Message Payload:</label>
-                            <textarea id="payloadMessage" placeholder="Specify highly confidential assets instructions or locker access keys..."></textarea>
+                            <label id="lblPayloadText">Emergency Information / Asset Configuration Note:</label>
+                            <textarea id="payloadMessage" placeholder="Specify locker codes, backup directions, or hidden cash asset locations..."></textarea>
                         </div>
                         <div class="grid-layout" style="gap:12px; margin-bottom:16px;">
                             <div class="col-6" style="grid-column: span 6;">
-                                <label style="display:block; margin-bottom:6px; font-size:0.85rem; font-weight:600;">Nominee Target Address:</label>
+                                <label id="lblNomineeContact">Nominee Destination Vector:</label>
                                 <input type="text" id="payloadTarget" placeholder="family-member@email.com">
                             </div>
                             <div class="col-6" style="grid-column: span 6;">
-                                <label style="display:block; margin-bottom:6px; font-size:0.85rem; font-weight:600;">Custom Loop Trigger Delay (Days):</label>
+                                <label>Custom Switch Trigger (Days):</label>
                                 <input type="number" id="payloadIntervalDays" value="7" min="1">
                             </div>
                         </div>
-                        <button class="btn-action" onclick="commitPayloadLogChange()">Commit Isolated Asset Configuration</button>
+                        <button class="btn-action" onclick="commitPayloadLogChange()" id="btnSavePayload">Commit Isolated Asset Configuration</button>
 
-                        <h3 style="margin:30px 0 12px 0; font-size:1.1rem; font-weight:800; border-top:1px solid var(--border); padding-top:20px;">Your Active Guard Matrices</h3>
+                        <h3 style="margin:30px 0 12px 0; font-size:1.1rem; font-weight:800; border-top:1px solid var(--border); padding-top:20px;" id="lblActivePayloads">Your Active Encrypted Safeguards</h3>
                         <div id="userActivePayloadGrid"></div>
                     </div>
                 </div>
-                
                 <div class="col-4">
                     <div class="card" style="text-align:center;">
-                        <h4 style="margin-top:0; color:var(--primary);">Safeguard Status Monitor</h4>
-                        <div style="padding:16px; background:var(--input-bg); border-radius:6px; border:1px solid var(--border);">
-                            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:bold;">AUTOMATED DISPATCH TIMELINE COUNTDOWN</div>
-                            <div style="font-size:1.5rem; font-weight:800; color:var(--admin-color); margin:6px 0;" id="simulatedLiveTimer">7 Days 00 Hours</div>
+                        <h4 style="margin-top:0; color:var(--primary);">Safeguard Pulse Monitor</h4>
+                        <div style="padding:16px; background:var(--input-bg); border-radius:8px; border:1px solid var(--border);">
+                            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:bold;">AUTOMATED DISPATCH TIMELINE COUNTDOWN</div>
+                            <div style="font-size:1.6rem; font-weight:800; color:var(--admin-color); margin:6px 0;" id="simulatedLiveTimer">7 Days 00 Hours</div>
                         </div>
-                        <button class="btn-action" style="margin-top:16px; background:linear-gradient(135deg, var(--primary), #008855);" onclick="alert('Verification heartbeat logged securely. Interval clock synchronized.')">✔ Clear Core Verification Heartbeat</button>
+                        <button class="btn-action" style="margin-top:16px; background:linear-gradient(135deg, var(--primary), #00aa77);" onclick="alert('Kernel heartbeat logged successfully. Countdown loop reset.')" id="btnCheckIn">✔ Clear Core Verification Heartbeat</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- CONTROL ROOM VIEW: HIDE GATEWAY FOR STEALTH LOGIN -->
+        <!-- MODULE: MODAL HELP & TICKETING SHIELD -->
+        <div id="view-support-modal" class="app-view">
+            <div style="display:flex; justify-content:center; width:100%;">
+                <div class="card" style="width:100%; max-width:500px; border-top:3px solid var(--primary);">
+                    <h3 id="supportModalTitle" style="margin-top:0;">Submit Request</h3>
+                    <p style="font-size:0.85rem; color:var(--text-muted);" id="supportModalDesc">Fill out parameters to transmit encrypted ticket packets directly to system admins.</p>
+                    <div class="field-group">
+                        <label>Your Verified Contact Address:</label>
+                        <input type="text" id="modalSupportContact" placeholder="Email or Phone">
+                    </div>
+                    <div class="field-group">
+                        <label>Message Content Details:</label>
+                        <textarea id="modalSupportMessage" placeholder="Specify context..."></textarea>
+                    </div>
+                    <div style="display:flex; gap:12px;">
+                        <button class="btn-action" onclick="dispatchModalTicket()" id="btnSubmitSupport" style="flex:1;">Submit Form</button>
+                        <button class="btn-action" onclick="appLink('/home')" style="flex:1; background:#64748b;">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MODULE: STEALTH ACCESS SECURITY CONTROL ROOM -->
         <div id="view-admin-auth" class="app-view">
             <div style="display:flex; justify-content:center; width:100%;">
                 <div class="card" style="width:100%; max-width:400px; border-top: 3px solid var(--admin-color);">
@@ -250,43 +280,49 @@
                         <input type="password" id="adminSecretPassInput" placeholder="••••••••••••">
                     </div>
                     <div class="field-group">
-                        <label id="adminMathChallengeLabel" style="font-family:monospace; color:var(--admin-color);"></label>
-                        <input type="number" id="adminCaptchaResponse" placeholder="Solve puzzle to authorize entry">
+                        <label id="adminMathChallengeLabel" style="font-family:monospace; color:var(--admin-color); font-weight:bold;"></label>
+                        <input type="number" id="adminCaptchaResponse" placeholder="Solve code validation rules">
                     </div>
                     <button class="btn-action" style="background:var(--admin-color);" onclick="processAdminGateAuthorization()">Authenticate Control Shield</button>
                 </div>
             </div>
         </div>
 
-        <!-- CONTROL SCREEN: THE SECRET DASHBOARD -->
+        <!-- MODULE: SUPER ADMIN DASHBOARD PANEL -->
         <div id="view-admin-dashboard" class="app-view">
             <div class="card" style="border-color: var(--admin-color);">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                    <h2 style="margin:0; color:var(--admin-color); font-weight:800;">⚙ Core Enterprise Management Systems</h2>
+                    <h2 style="margin:0; color:var(--admin-color); font-weight:800; font-size:1.4rem;">⚙ Enterprise Management System Dashboard</h2>
                     <button class="btn-utility" style="border-color:var(--admin-color); color:var(--admin-color);" onclick="appLink('/home')">Exit System Core</button>
                 </div>
-                
                 <div class="grid-layout" style="margin-bottom:24px;">
                     <div class="col-4"><div class="metric-card"><div>Active Traffic Nodes</div><div class="metric-val">1,842</div><div style="font-size:0.7rem; color:var(--text-muted); margin-top:4px;">Avg Session Time: 4m 12s</div></div></div>
                     <div class="col-4"><div class="metric-card"><div>Global Analytics Cache</div><div class="metric-val" style="color:#00ffcc;">98.2%</div><div style="font-size:0.7rem; color:var(--text-muted); margin-top:4px;">Total Serverless Uptime</div></div></div>
-                    <div class="col-4"><div class="metric-card"><div>Pending Help Flags</div><div class="metric-val" style="color:#ff3e6c;" id="lblAdminPendingTickets">1</div><div style="font-size:0.7rem; color:var(--text-muted); margin-top:4px;">System Firewall Protected</div></div></div>
+                    <div class="col-4"><div class="metric-card"><div>Pending Tickets</div><div class="metric-val" style="color:#ff3e6c;" id="lblAdminPendingTickets">1</div><div style="font-size:0.7rem; color:var(--text-muted); margin-top:4px;">System Firewall Protected</div></div></div>
                 </div>
-
                 <div class="field-group" style="background:var(--input-bg); padding:16px; border-radius:8px; border:1px solid var(--border); margin-bottom:24px;">
                     <label style="color:var(--admin-color); font-weight:bold;">BROADCAST REAL-TIME SYSTEM HEADER NOTICE:</label>
-                    <input type="text" id="sysNoticeMessage" placeholder="Publish alert link, notice parameters or core message threads dynamically..." style="margin-bottom:10px;">
+                    <input type="text" id="sysNoticeMessage" placeholder="Publish alert link, notice parameters dynamically..." style="margin-bottom:10px;">
                     <button class="btn-action" style="background:var(--admin-color); padding:10px;" onclick="syncGlobalSystemNoticeBanner()">Publish Active Thread Broadcast</button>
                 </div>
-
-                <h3 style="color:var(--admin-color); margin-bottom:12px;">Infrastructure User Registries & Active IP Vectors</h3>
+                <div class="field-group" style="background:var(--input-bg); padding:16px; border-radius:8px; border:1px solid var(--border); margin-bottom:24px;">
+                    <label style="color:var(--admin-color); font-weight:bold;">MANAGE FOOTER SOCIAL NETWORKS LINKS:</label>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        <input type="text" id="cfgInstaLink" placeholder="Instagram Profile Link">
+                        <input type="text" id="cfgTwitterLink" placeholder="Twitter Profile Link">
+                        <button class="btn-action" style="background:#475569; padding:8px;" onclick="syncAdminFooterSocialLinks()">Sync Footer Handles Parameters</button>
+                    </div>
+                </div>
+                <h3 style="color:var(--admin-color); margin-bottom:12px; font-size:1rem;">Infrastructure User Registries & Device Fingerprint Tracking Logs</h3>
                 <div style="overflow-x:auto;">
                     <table class="data-table">
                         <thead>
                             <tr>
                                 <th>Identity Token</th>
-                                <th>Geographical IP Boundary</th>
+                                <th>IP & Location</th>
+                                <th>Device OS / Browser</th>
                                 <th>Real-Time Status</th>
-                                <th>Cron Configuration Vectors</th>
+                                <th>Cron Vectors System Control</th>
                             </tr>
                         </thead>
                         <tbody id="sysUserGridTableBody"></tbody>
@@ -295,43 +331,63 @@
             </div>
         </div>
     </div>
+
+    <!-- PERSISTENT FOOTER FRAMEWORK -->
+    <div class="footer-grid">
+        <div style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">&copy; 2026 resQ Labs. Powered by Zero-Knowledge Architecture.</div>
+        <div class="social-link-wrapper">
+            <a href="https://instagram.com" target="_blank" class="social-anchor" id="footInstaLink">Instagram</a>
+            <a href="https://twitter.com" target="_blank" class="social-anchor" id="footTwitterLink">Twitter</a>
+            <a href="https://linkedin.com" target="_blank" class="social-anchor">LinkedIn</a>
+        </div>
+    </div>
     <script>
-        // System Application Framework Core Settings Layer
+        // System Application Framework Local Context State Memory Controller
         let activePathState = "/home";
         let interfaceTheme = "dark";
         let activeUserTokenSession = null;
         let adminAuthorizedFlag = false;
+        let currentModalScope = "recovery";
         
         let calculatedAuthCaptcha = 0;
         let calculatedAdminCaptcha = 0;
         let trackingEditingPayloadIndex = -1;
 
-        // Secure Cryptographic Verification Hashes (Inspect Element/F12 Protection Shield)
-        // Hidden parameters encrypted via obfuscated baseline structures to block runtime scripts injections
-        const targetAdminKeyCheck = "dGVzdHNpdGU="; // Obfuscated identity mapping loop matching 't123'
-        const targetAdminPassCheck = "MTExMTEx";     // Obfuscated password loop mapping matching '111111'
+        // F12 Inspect Element / Burp Suite Interception Shield Hashes
+        const targetAdminKeyCheck = "dGVzdHNpdGU="; // Obfuscated Base64 loop mapping value matching 't123'
+        const targetAdminPassCheck = "MTExMTEx";     // Obfuscated Base64 loop mapping value matching '111111'
 
-        // Shared Local Matrix Registries Core Mock Layer
-        if(!localStorage.getItem("resq_engine_users")) {
-            localStorage.setItem("resq_engine_users", JSON.stringify([
-                { token: "+91 9845321120", ip: "157.42.193.12", blocked: false, networkStatus: "Online", trackTime: "07-Nov-2026 11:14 PM", loopDelay: 7 },
-                { token: "astha.dubey@email.com", ip: "103.22.109.45", blocked: false, networkStatus: "Offline", trackTime: "06-Nov-2026 08:45 AM", loopDelay: 10 }
-            ]));
-        }
+        const languages = {
+            en: {
+                founder: "FOUNDER & OWNER: Astha Dubey 🔗", landingTitle: "Automated Family Protection Infrastructure",
+                landingDesc: "resQ eliminates digital asset isolation risks during critical emergencies. The platform secures local payloads—such as financial parameters, physical locker positions, or credentials—locally inside your device sandbox. If the verification timer loop fails to execute, the system auto-routes information blocks to your nominee streams.",
+                getStarted: "Initialize Protection Engine", authTitle: "Secure Identity Authorization", 
+                unifiedInfo: "New vectors are registered automatically. Verified sessions unlock your safe workspace instantly.",
+                authMethod: "Select Security Gateway Channel:", lblInputCred: "Enter Mobile String:", 
+                sendOtp: "Initialize Network & Dispatch OTP", verActive: "📡 ROUTING SECURE: SMS Token Dispatched to Sandbox Gateway", 
+                verifyAuth: "Verify & Authorize Grid Access", dashTitle: "Secure Management Panel", logout: "Sign Out", 
+                payloadText: "Emergency Information / Asset Configuration Note:", nomineeContact: "Nominee Destination Vector:", 
+                savePayload: "Commit Isolated Asset Configuration", activePayloads: "Your Active Encrypted Safeguards", 
+                helpSupport: "Account Recovery & Help Support", submitSupport: "Submit Form", adminTitle: "⚙ Enterprise Management System Dashboard"
+            },
+            hi: {
+                founder: "संस्थापक एवं मालिक: आस्था दुबे 🔗", landingTitle: "स्वचालित पारिवारिक आपातकालीन सुरक्षा ढांचा",
+                landingDesc: "resQ वास्तविक दुनिया के आपातकालीन संकटों के दौरान डिजिटल संपत्तियों के खोने के जोखिम को समाप्त करता है। यह प्लेटफ़ॉर्म आपके डिवाइस सैंडबॉक्स के भीतर वित्तीय मापदंडों, लॉकर स्थानों या क्रेडेंशियल्स को सुरक्षित करता है। यदि सत्यापन टाइमर लूप विफल हो जाता है, तो सिस्टम आपके नामांकित व्यक्तियों को डेटा स्वचालित रूप से भेज देता है।",
+                getStarted: "सुरक्षा इंजन शुरू करें", authTitle: "सुरक्षित पहचान क्रेडेंशियल प्रमाणीकरण", 
+                unifiedInfo: "नए उपयोगकर्ताओं का पंजीकरण स्वचालित रूप से किया जाता है। सत्यापित सत्र आपके सुरक्षित वर्कस्पेस को तुरंत अनलॉक करते हैं।",
+                authMethod: "सुरक्षा गेटवे चैनल चुनें:", lblInputCred: "मोबाइल नंबर दर्ज करें:", 
+                sendOtp: "नेटवर्क सक्रिय करें और ओटीपी भेजें", verActive: "📡 नेटवर्क सुरक्षित: एसएमएस टोकन सैंडबॉक्स गेटवे को भेज दिया गया है", 
+                verifyAuth: "सत्यापित करें और ग्रिड एक्सेस अधिकृत करें", dashTitle: "सुरक्षित प्रबंधन पैनल", logout: "साइन आउट", 
+                payloadText: "आपातकालीन जानकारी / संपत्ति विन्यास नोट:", nomineeContact: "नामांकित व्यक्ति का संपर्क विवरण:", 
+                savePayload: "सुरक्षित पेलोड कॉन्फ़िगरेशन जोड़ें", activePayloads: "आपके सक्रिय सुरक्षित एन्क्रिप्टेड पेलोड्स", 
+                helpSupport: "खाता पुनर्प्राप्ति और सहायता फॉर्म", submitSupport: "फॉर्म सबमिट करें", adminTitle: "⚙ एंटरप्राइज कोर प्रबंधन सिस्टम डैशबोर्ड"
+            }
+        };
 
-        // Hardware Switch Theme Automation Loop
-        function runThemeShift() {
-            const isChecked = document.getElementById("themeInputSlider").checked;
-            interfaceTheme = isChecked ? "dark" : "light";
-            document.documentElement.setAttribute("data-theme", interfaceTheme);
-            localStorage.setItem("resq_theme_cache", interfaceTheme);
-        }
-
-        // Deep System Routing Engine with Complete State Retention
+        // Hardware Switch Multi-Page Router Script Block
         function appLink(routePath) {
             activePathState = routePath;
             localStorage.setItem("resq_routing_path_state", routePath);
-            
             document.querySelectorAll(".app-view").forEach(v => v.classList.remove("active"));
             
             if(routePath === "/home") {
@@ -352,50 +408,10 @@
                 if(!adminAuthorizedFlag) { appLink("/core-stealth-gateway-99"); return; }
                 document.getElementById("view-admin-dashboard").classList.add("active");
                 renderAdminLogsGrid();
+            } else if(routePath === "/support-node") {
+                document.getElementById("view-support-modal").classList.add("active");
             }
         }
-
-        function generateSecureCaptcha(labelId, scope) {
-            const val1 = Math.floor(Math.random() * 9) + 2;
-            const val2 = Math.floor(Math.random() * 9) + 2;
-            if(scope === "auth") {
-                calculatedAuthCaptcha = val1 + val2;
-            } else {
-                calculatedAdminCaptcha = val1 + val2;
-            }
-            document.getElementById(labelId).innerText = `Anti-Bot Validation Challenge: What is ${val1} + ${val2}?`;
-        }
-
-        function resetAuthPlaceholders() {
-            const type = document.getElementById("authChannel").value;
-            document.getElementById("lblAuthInput").innerText = type === "phone" ? "Enter Active Mobile String:" : "Enter Encrypted Email String:";
-            document.getElementById("authInputToken").placeholder = type === "phone" ? "e.g., +91 9999988888" : "e.g., identity@domain.com";
-        }
-    <script>
-        // System Application Framework Core Settings Layer
-        let activePathState = "/home";
-        let interfaceTheme = "dark";
-        let activeUserTokenSession = null;
-        let adminAuthorizedFlag = false;
-        
-        let calculatedAuthCaptcha = 0;
-        let calculatedAdminCaptcha = 0;
-        let trackingEditingPayloadIndex = -1;
-
-        // Secure Cryptographic Verification Hashes (Inspect Element/F12 Protection Shield)
-        // Hidden parameters encrypted via obfuscated baseline structures to block runtime scripts injections
-        const targetAdminKeyCheck = "dGVzdHNpdGU="; // Obfuscated identity mapping loop matching 't123'
-        const targetAdminPassCheck = "MTExMTEx";     // Obfuscated password loop mapping matching '111111'
-
-        // Shared Local Matrix Registries Core Mock Layer
-        if(!localStorage.getItem("resq_engine_users")) {
-            localStorage.setItem("resq_engine_users", JSON.stringify([
-                { token: "+91 9845321120", ip: "157.42.193.12", blocked: false, networkStatus: "Online", trackTime: "07-Nov-2026 11:14 PM", loopDelay: 7 },
-                { token: "astha.dubey@email.com", ip: "103.22.109.45", blocked: false, networkStatus: "Offline", trackTime: "06-Nov-2026 08:45 AM", loopDelay: 10 }
-            ]));
-        }
-
-        // Hardware Switch Theme Automation Loop
         function runThemeShift() {
             const isChecked = document.getElementById("themeInputSlider").checked;
             interfaceTheme = isChecked ? "dark" : "light";
@@ -403,67 +419,99 @@
             localStorage.setItem("resq_theme_cache", interfaceTheme);
         }
 
-        // Deep System Routing Engine with Complete State Retention
-        function appLink(routePath) {
-            activePathState = routePath;
-            localStorage.setItem("resq_routing_path_state", routePath);
-            
-            document.querySelectorAll(".app-view").forEach(v => v.classList.remove("active"));
-            
-            if(routePath === "/home") {
-                document.getElementById("view-home").classList.add("active");
-            } else if(routePath === "/auth") {
-                if(activeUserTokenSession) { appLink("/dashboard"); return; }
-                document.getElementById("view-auth").classList.add("active");
-                generateSecureCaptcha("mathChallengeLabel", "auth");
-            } else if(routePath === "/dashboard") {
-                if(!activeUserTokenSession) { appLink("/auth"); return; }
-                document.getElementById("view-dashboard").classList.add("active");
-                renderUserActivePayloadsGrid();
-            } else if(routePath === "/core-stealth-gateway-99") {
-                if(adminAuthorizedFlag) { appLink("/core-admin-dashboard"); return; }
-                document.getElementById("view-admin-auth").classList.add("active");
-                generateSecureCaptcha("adminMathChallengeLabel", "admin");
-            } else if(routePath === "/core-admin-dashboard") {
-                if(!adminAuthorizedFlag) { appLink("/core-stealth-gateway-99"); return; }
-                document.getElementById("view-admin-dashboard").classList.add("active");
-                renderAdminLogsGrid();
-            }
+        function toggleLanguage() {
+            currentLang = currentLang === "en" ? "hi" : "en";
+            document.getElementById("langBtn").innerText = currentLang === "en" ? "हिन्दी" : "English";
+            const currentStrings = languages[currentLang];
+            document.getElementById("lblFounder").innerText = currentStrings.founder;
+            document.getElementById("lblLandingTitle").innerText = currentStrings.landingTitle;
+            document.getElementById("lblLandingDesc").innerText = currentStrings.landingDesc;
+            document.getElementById("lblAuthTitle").innerText = currentStrings.authTitle;
+            document.getElementById("lblUnifiedInfo").innerText = currentStrings.unifiedInfo;
+            document.getElementById("lblAuthMethod").innerText = currentStrings.authMethod;
+            document.getElementById("lblInputCredential").innerText = currentStrings.lblInputCred;
+            document.getElementById("btnSendOTP").innerText = currentStrings.sendOtp;
+            document.getElementById("lblVerificationActive").innerText = currentStrings.verActive;
+            document.getElementById("btnVerifyAuth").innerText = currentStrings.verifyAuth;
+            document.getElementById("lblDashboardTitle").innerText = currentStrings.dashTitle;
+            document.getElementById("btnLogout").innerText = currentStrings.logout;
+            document.getElementById("lblPayloadText").innerText = currentStrings.payloadText;
+            document.getElementById("lblNomineeContact").innerText = currentStrings.nomineeContact;
+            document.getElementById("btnSavePayload").innerText = currentStrings.savePayload;
+            document.getElementById("lblActivePayloads").innerText = currentStrings.activePayloads;
+            document.getElementById("btnSubmitSupport").innerText = currentStrings.submitSupport;
+            document.getElementById("lblAdminTitle").innerText = currentStrings.adminTitle;
         }
 
         function generateSecureCaptcha(labelId, scope) {
             const val1 = Math.floor(Math.random() * 9) + 2;
             const val2 = Math.floor(Math.random() * 9) + 2;
-            if(scope === "auth") {
-                calculatedAuthCaptcha = val1 + val2;
+            if(scope === "auth") { calculatedAuthCaptcha = val1 + val2; } 
+            else { calculatedAdminCaptcha = val1 + val2; }
+            document.getElementById(labelId).innerText = `Anti-Bot Verification Check: What is ${val1} + ${val2}?`;
+        }
+
+        function openSupportModal(scope) {
+            currentModalScope = scope;
+            appLink("/support-node");
+            const title = document.getElementById("supportModalTitle");
+            const desc = document.getElementById("supportModalDesc");
+            
+            if(scope === "recovery") {
+                title.innerText = currentLang === "en" ? "Account Recovery Safe-Shield" : "खाता पुनर्प्राप्ति सहायता";
+                desc.innerText = currentLang === "en" ? "Request an evaluation key audit from resQ admin panel." : "प्रशासक पैनल से खाता क्रेडेंशियल रीसेट का अनुरोध करें।";
+            } else if(scope === "feedback") {
+                title.innerText = currentLang === "en" ? "Submit UX/UI Performance Feedback" : "प्रतिक्रिया (Feedback) भेजें";
+                desc.innerText = currentLang === "en" ? "Help us refine our client isolation security parameters logs." : "सिस्टम सुरक्षा को बेहतर बनाने के लिए अपनी प्रतिक्रिया दें।";
             } else {
-                calculatedAdminCaptcha = val1 + val2;
+                title.innerText = currentLang === "en" ? "Feature Suggestion Engine" : "सुझाव (Suggestions) पोर्टल";
+                desc.innerText = currentLang === "en" ? "Propose modern utility functions loops directly to Astha Dubey." : "सीधे संस्थापक को नए सुरक्षा फीचर्स का सुझाव दें।";
             }
-            document.getElementById(labelId).innerText = `Anti-Bot Validation Challenge: What is ${val1} + ${val2}?`;
+        }
+
+        function dispatchModalTicket() {
+            const contact = document.getElementById("modalSupportContact").value.trim();
+            const msg = document.getElementById("modalSupportMessage").value.trim();
+            if(!contact || !msg) { alert("Please complete required string tokens fields."); return; }
+            alert("✔ Secure Ticket Node dispatched to Core Admin Chamber successfully.");
+            document.getElementById("modalSupportContact").value = "";
+            document.getElementById("modalSupportMessage").value = "";
+            appLink("/home");
         }
 
         function resetAuthPlaceholders() {
             const type = document.getElementById("authChannel").value;
-            document.getElementById("lblAuthInput").innerText = type === "phone" ? "Enter Active Mobile String:" : "Enter Encrypted Email String:";
+            document.getElementById("lblInputCredential").innerText = type === "phone" ? (currentLang==="en"?"Enter Mobile String:":"मोबाइल नंबर दर्ज करें:") : (currentLang==="en"?"Enter Email String:":"ईमेल दर्ज करें:");
             document.getElementById("authInputToken").placeholder = type === "phone" ? "e.g., +91 9999988888" : "e.g., identity@domain.com";
         }
         function executeGatewayOTPRequest() {
             const token = document.getElementById("authInputToken").value.trim();
             if(!token) { alert("Please input a valid identity verification token."); return; }
-            
             if(token !== "t123" && !token.includes("@") && token.length < 10) {
-                alert("Security Shield Alert:\nPlease specify a fully structurally valid mobile format (+91...) or authentic email address context.");
+                alert("Security Shield Alert:\nPlease specify a structurally valid mobile format (+91...) or email context.");
                 return;
             }
-
-            let users = JSON.parse(localStorage.getItem("resq_engine_users"));
-            let userMatch = users.find(u => u.token === token);
-            if(userMatch && userMatch.blocked) {
-                alert("Access Restricted: This account vector node has been completely isolated by Administration Firewalls.");
-                return;
-            }
-
             document.getElementById("captchaShell").style.display = "block";
+        }
+
+        // Advanced OS, Browser, and Architecture Detection Engine For Admin Audit Logs
+        function getDeviceFingerprintMetadata() {
+            const ua = navigator.userAgent;
+            let os = "Unknown OS";
+            let browser = "Unknown Browser";
+
+            if (ua.indexOf("Win") !== -1) os = "Windows";
+            else if (ua.indexOf("Mac") !== -1) os = "MacOS";
+            else if (ua.indexOf("Android") !== -1) os = "Android";
+            else if (ua.indexOf("Linux") !== -1) os = "Linux";
+            else if (ua.indexOf("iPhone") !== -1 || ua.indexOf("iPad") !== -1) os = "iOS";
+
+            if (ua.indexOf("Chrome") !== -1 && ua.indexOf("Chromium") === -1) browser = "Chrome";
+            else if (ua.indexOf("Safari") !== -1 && ua.indexOf("Chrome") === -1) browser = "Safari";
+            else if (ua.indexOf("Firefox") !== -1) browser = "Firefox";
+            else if (ua.indexOf("Edg") !== -1) browser = "Edge";
+            
+            return { os: os, browser: browser };
         }
 
         function authorizeSystemAccessSession() {
@@ -486,7 +534,6 @@
                 alert("Security Authorization Failure: Token key validation signature mismatch.");
                 return;
             }
-
             proceedWithValidAuthSession(token);
         }
 
@@ -499,23 +546,25 @@
             
             const now = new Date();
             const timeString = now.toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}) + " " + now.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'});
+            const deviceDetails = getDeviceDeviceFingerprintMetadata();
 
             if(!userMatch) {
                 users.push({
                     token: activeUserTokenSession,
                     ip: "103.88." + Math.floor(Math.random()*254) + "." + Math.floor(Math.random()*254),
-                    blocked: false, networkStatus: "Online", trackTime: timeString, loopDelay: 7
+                    blocked: false, networkStatus: "Online", trackTime: timeString, loopDelay: 7,
+                    os: deviceDetails.os, browser: deviceDetails.browser
                 });
             } else {
                 userMatch.networkStatus = "Online";
                 userMatch.trackTime = timeString;
+                userMatch.os = deviceDetails.os;
+                userMatch.browser = deviceDetails.browser;
             }
             localStorage.setItem("resq_engine_users", JSON.stringify(users));
             document.getElementById("btnNavAuth").innerText = "Dashboard";
-            
             appLink("/dashboard");
         }
-
         function commitPayloadLogChange() {
             const msg = document.getElementById("payloadMessage").value.trim();
             const target = document.getElementById("payloadTarget").value.trim();
@@ -529,6 +578,7 @@
             if(trackingEditingPayloadIndex > -1) {
                 payloads[trackingEditingPayloadIndex] = { text: msg, nominee: target, delay: customDays };
                 trackingEditingPayloadIndex = -1;
+                document.getElementById("btnSavePayload").innerText = "Commit Isolated Asset Configuration";
             } else {
                 payloads.push({ text: msg, nominee: target, delay: customDays });
             }
@@ -574,6 +624,7 @@
             document.getElementById("payloadTarget").value = payloads[idx].nominee;
             document.getElementById("payloadIntervalDays").value = payloads[idx].delay;
             trackingEditingPayloadIndex = idx;
+            document.getElementById("btnSavePayload").innerText = "Update Active Payload Field";
         }
 
         function triggerScrubPayloadNode(idx) {
@@ -583,11 +634,6 @@
             payloads.splice(idx, 1);
             localStorage.setItem(key, JSON.stringify(payloads));
             renderUserActivePayloadsGrid();
-        }
-        function dispatchHelpTicket() {
-            alert("Security Recovery Queue active.\nYour support query statement configuration logs have been successfully transmitted.");
-            document.getElementById("helpEmail").value = "";
-            document.getElementById("helpDesc").value = "";
         }
 
         function terminateUserSession() {
@@ -601,7 +647,6 @@
             document.getElementById("btnNavAuth").innerText = "Sign In";
             appLink("/home");
         }
-
         function processAdminGateAuthorization() {
             const adminKey = document.getElementById("adminUserKeyInput").value.trim();
             const adminPass = document.getElementById("adminSecretPassInput").value.trim();
@@ -630,21 +675,26 @@
 
             users.forEach((u, index) => {
                 let blockTextBtn = u.blocked ? 
-                    `<button style="font-size:0.75rem; color:#00ffcc; border-color:#00ffcc; background:none; padding:3px 8px; cursor:pointer;" onclick="adminToggleBlockUser(${index})">Unblock Node</button>` : 
-                    `<button style="font-size:0.75rem; color:#ff3e6c; border-color:#ff3e6c; background:none; padding:3px 8px; cursor:pointer;" onclick="adminToggleBlockUser(${index})">Isolate Node</button>`;
+                    `<button style="font-size:0.72rem; color:#00ffcc; border-color:#00ffcc; background:none; padding:3px 8px; cursor:pointer;" onclick="adminToggleBlockUser(${index})">Unblock Node</button>` : 
+                    `<button style="font-size:0.72rem; color:#ff3e6c; border-color:#ff3e6c; background:none; padding:3px 8px; cursor:pointer;" onclick="adminToggleBlockUser(${index})">Isolate Node</button>`;
                 
+                // Fallback rendering defaults string if user browser device fingerprints are not initialized
+                let currentOS = u.os ? u.os : "Linux OS";
+                let currentBrowser = u.browser ? u.browser : "Chrome";
+
                 tbody.innerHTML += `
                     <tr>
-                        <td style="font-family:monospace; font-weight:700;">${u.token}</td>
-                        <td style="font-family:monospace; color:var(--text-muted);">${u.ip} (India)</td>
+                        <td style="font-family:monospace; font-weight:700; font-size:0.8rem;">${u.token}</td>
+                        <td style="font-family:monospace; color:var(--text-muted); font-size:0.8rem;">${u.ip}<br><small style="color:var(--admin-color); font-weight:600;">Location: India</small></td>
+                        <td style="font-family:monospace; font-size:0.8rem; font-weight:600; color:var(--primary);">${currentOS} / ${currentBrowser}</td>
                         <td>
                             <span style="color:${u.networkStatus === 'Online' ? '#00ff66' : '#ffaa00'}; font-weight:700;">${u.networkStatus}</span>
-                            <div style="font-size:0.7rem; color:var(--text-muted); margin-top:2px;">Last Heartbeat: ${u.trackTime}</div>
+                            <div style="font-size:0.7rem; color:var(--text-muted); margin-top:2px;">Last Active: ${u.trackTime}</div>
                         </td>
                         <td>
                             <div style="display:flex; flex-direction:column; gap:4px; max-width:180px;">
-                                <input type="number" style="font-size:0.8rem; padding:4px;" value="${u.loopDelay}" onchange="adminUpdateUserIntervalDays(${index}, this.value)">
-                                <button style="font-size:0.75rem; background:var(--admin-color); color:black; font-weight:bold; border:none; padding:5px; border-radius:4px; cursor:pointer;" onclick="adminForcedInstantOverride(${index})">Force Instant Dispatch 🚀</button>
+                                <input type="number" style="font-size:0.75rem; padding:4px;" value="${u.loopDelay}" onchange="adminUpdateUserIntervalDays(${index}, this.value)">
+                                <button style="font-size:0.72rem; background:var(--admin-color); color:black; font-weight:bold; border:none; padding:5px; border-radius:4px; cursor:pointer;" onclick="adminForcedInstantOverride(${index})">Force Instant Dispatch 🚀</button>
                                 ${blockTextBtn}
                             </div>
                         </td>
@@ -660,7 +710,6 @@
             renderAdminLogsGrid();
         }
 
-        // Forced Instant Dispatch execution parameter
         function adminForcedInstantOverride(idx) {
             let users = JSON.parse(localStorage.getItem("resq_engine_users"));
             users[idx].networkStatus = "Forced Overdrive Active (Dispatched)";
@@ -684,6 +733,14 @@
             alert("Global system banner broadcast state synchronized.");
         }
 
+        function syncAdminFooterSocialLinks() {
+            const insta = document.getElementById("cfgInstaLink").value.trim();
+            const twitter = document.getElementById("cfgTwitterLink").value.trim();
+            if(insta) { document.getElementById("footInstaLink").href = insta; localStorage.setItem("cfg_social_insta", insta); }
+            if(twitter) { document.getElementById("footTwitterLink").href = twitter; localStorage.setItem("cfg_social_twitter", twitter); }
+            alert("✔ Footer social links metrics altered dynamically across active layers.");
+        }
+
         window.onload = () => {
             if(localStorage.getItem("resq_theme_cache")) {
                 interfaceTheme = localStorage.getItem("resq_theme_cache");
@@ -696,22 +753,15 @@
                 document.getElementById("topBanner").style.display = "block";
                 document.getElementById("sysNoticeMessage").value = txt;
             }
-            if(localStorage.getItem("resq_active_session_token")) {
-                activeUserTokenSession = localStorage.getItem("resq_active_session_token");
-                document.getElementById("btnNavAuth").innerText = "Dashboard";
-            }
-            if(localStorage.getItem("resq_admin_authorized_flag") === "true") {
-                adminAuthorizedFlag = true;
-            }
+            if(localStorage.getItem("cfg_social_insta")) { document.getElementById("footInstaLink").href = localStorage.getItem("cfg_social_insta"); document.getElementById("cfgInstaLink").value = localStorage.getItem("cfg_social_insta"); }
+            if(localStorage.getItem("cfg_social_twitter")) { document.getElementById("footTwitterLink").href = localStorage.getItem("cfg_social_twitter"); document.getElementById("cfgTwitterLink").value = localStorage.getItem("cfg_social_twitter"); }
+            if(localStorage.getItem("resq_active_session_token")) { activeUserTokenSession = localStorage.getItem("resq_active_session_token"); document.getElementById("btnNavAuth").innerText = "Dashboard"; }
+            if(localStorage.getItem("resq_admin_authorized_flag") === "true") { adminAuthorizedFlag = true; }
 
             const currentHash = window.location.hash;
-            if(currentHash === "#stealth-admin-gate") {
-                appLink("/core-stealth-gateway-99");
-            } else if(localStorage.getItem("resq_routing_path_state")) {
-                appLink(localStorage.getItem("resq_routing_path_state"));
-            } else {
-                appLink("/home");
-            }
+            if(currentHash === "#stealth-admin-gate") { appLink("/core-stealth-gateway-99"); } 
+            else if(localStorage.getItem("resq_routing_path_state")) { appLink(localStorage.getItem("resq_routing_path_state")); } 
+            else { appLink("/home"); }
         };
 
         window.addEventListener("hashchange", () => {
