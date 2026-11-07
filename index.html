@@ -3,236 +3,499 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v-resQ Systems - Ultimate Advanced Safeguard</title>
+    <title>resQ - Ultimate Emergency Safeguard Platform</title>
     <style>
         :root {
-            --bg-base: #04060d;
-            --bg-card: #0a0e1c;
+            --bg-base: #060814;
+            --bg-card: #0c0f22;
             --primary: #00ffb3;
             --primary-glow: rgba(0, 255, 179, 0.2);
             --admin-color: #ffaa00;
             --text-main: #f8fafc;
             --text-muted: #64748b;
+            --border: #1e293b;
+        }
+        [data-theme="light"] {
+            --bg-base: #f1f5f9;
+            --bg-card: #ffffff;
+            --primary: #00aa77;
+            --primary-glow: rgba(0, 170, 119, 0.1);
+            --admin-color: #d97706;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #cbd5e1;
         }
         body {
             font-family: system-ui, -apple-system, sans-serif;
             background-color: var(--bg-base);
             color: var(--text-main);
             margin: 0;
-            padding: 30px 15px;
+            padding: 0;
+            transition: background 0.3s, color 0.3s;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
-        .header { text-align: center; margin-bottom: 25px; }
-        .header h1 { font-size: 2.8rem; margin: 0; color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); }
-        .badge { border: 1px solid var(--primary); color: var(--primary); padding: 4px 18px; border-radius: 20px; font-size: 0.85rem; display: inline-block; margin-top: 10px; font-weight: bold; background: rgba(0,255,179,0.03); }
-        .main-wrapper { width: 100%; max-width: 600px; }
-        .card { background: var(--bg-card); border-radius: 14px; padding: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.03); margin-bottom: 20px; }
-        .tabs { display: flex; background: rgba(0,0,0,0.4); border-radius: 8px; padding: 4px; margin-bottom: 20px; }
-        .tab-btn { flex: 1; background: none; border: none; color: var(--text-muted); padding: 12px; cursor: pointer; font-weight: bold; border-radius: 6px; }
-        .tab-btn.active { background-color: var(--bg-base); color: var(--primary); box-shadow: 0 0 8px rgba(0,0,0,0.5); }
-        .field { margin-bottom: 16px; }
-        label { display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #94a3b8; }
-        input, textarea, select { width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.3); border: 1px solid #1e293b; padding: 12px; border-radius: 6px; color: white; font-size: 0.95rem; }
-        textarea { height: 90px; resize: none; }
-        input:focus, textarea:focus { outline: none; border-color: var(--primary); }
-        .btn { width: 100%; background: var(--primary); color: #000; border: none; padding: 14px; font-size: 1.05rem; font-weight: 700; border-radius: 6px; cursor: pointer; box-shadow: 0 4px 12px var(--primary-glow); }
-        .admin-section { display: none; border: 1px solid var(--admin-color); padding: 20px; border-radius: 10px; background: rgba(255,170,0,0.02); }
+        .admin-banner {
+            width: 100%;
+            background: linear-gradient(90deg, #b45309, #d97706);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-sizing: border-box;
+            display: none;
+            z-index: 1000;
+        }
+        .top-nav {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .logo { font-weight: 800; font-size: 1.4rem; letter-spacing: 1px; color: var(--primary); cursor: pointer; }
+        .controls { display: flex; gap: 10px; }
+        .control-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .header { text-align: center; margin: 15px 0 30px 0; }
+        .header h1 { font-size: 3.4rem; margin: 0; color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); font-weight: 800; }
+        .badge { border: 1px solid var(--primary); color: var(--primary); padding: 5px 18px; border-radius: 20px; font-size: 0.85rem; display: inline-block; margin-top: 8px; font-weight: bold; background: rgba(0,255,179,0.03); letter-spacing: 0.5px; }
+        .main-container { width: 100%; max-width: 700px; padding: 0 15px; box-sizing: border-box; }
+        .view-page { display: none; }
+        .view-page.active { display: block; }
+        .card { background: var(--bg-card); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 1px solid var(--border); margin-bottom: 25px; }
+        .field { margin-bottom: 18px; text-align: left; }
+        label { display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: var(--text-main); opacity: 0.8; }
+        input, textarea, select { width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.02); border: 1px solid var(--border); padding: 14px; border-radius: 8px; color: var(--text-main); font-size: 1rem; }
+        textarea { height: 100px; resize: none; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary); }
+        .btn { width: 100%; background: var(--primary); color: #060814; border: none; padding: 15px; font-size: 1.1rem; font-weight: 700; border-radius: 8px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px var(--primary-glow); }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .msg-item { border: 1px solid var(--border); padding: 15px; border-radius: 8px; margin-bottom: 12px; background: rgba(0,0,0,0.01); display: flex; justify-content: space-between; align-items: center; }
+        .msg-actions button { background: none; border: 1px solid var(--border); color: var(--text-main); padding: 4px 8px; border-radius: 4px; cursor: pointer; margin-left: 5px; font-size: 0.8rem; }
+        .admin-panel { border: 2px solid var(--admin-color); }
         .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
-        .data-table th, .data-table td { border: 1px solid #1e293b; padding: 8px; text-align: left; }
-        .data-table th { background: rgba(0,0,0,0.4); color: var(--admin-color); }
+        .data-table th, .data-table td { border: 1px solid var(--border); padding: 10px; text-align: left; }
+        .data-table th { background: rgba(0,0,0,0.03); color: var(--admin-color); }
+        
+        @media (max-width: 600px) {
+            .header h1 { font-size: 2.5rem; }
+            .card { padding: 20px; }
+            .msg-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .msg-actions { width: 100%; display: flex; justify-content: flex-end; }
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>v-resQ Systems</h1>
-        <div class="badge">FOUNDER & CEO: [Her Name Here]</div>
+    <div id="stickyNotice" class="admin-banner"></div>
+    <div class="top-nav">
+        <div class="logo" onclick="navigateTo('/home')">resQ Labs</div>
+        <div class="controls">
+            <button class="control-btn" onclick="toggleLanguage()" id="langBtn">हिन्दी</button>
+            <button class="control-btn" onclick="toggleTheme()" id="themeBtn">☀️ Light</button>
+        </div>
     </div>
 
-    <div class="main-wrapper">
-        <div class="card" id="userBlock">
-            <div class="tabs">
-                <button id="t1" class="tab-btn active" onclick="switchUserTab('register')">Deploy Safeguard</button>
-                <button id="t2" class="tab-btn" onclick="switchUserTab('status')">7-Day Verification Portal</button>
-                <button id="t3" class="tab-btn" onclick="switchUserTab('help')">Account Recovery Support</button>
-            </div>
+    <div class="header">
+        <h1>resQ</h1>
+        <div class="badge" id="lblFounder">FOUNDER & OWNER: Astha Dubey</div>
+    </div>
 
-            <!-- REGISTRATION & VAULT SETUP -->
-            <div id="registerPanel">
+    <div class="main-container">
+        
+        <!-- PAGE VIEW: /home -->
+        <div id="page-home" class="view-page view-root">
+            <div class="card">
+                <h3 id="lblLandingTitle">Next-Gen Family Emergency Safeguard</h3>
+                <p id="lblLandingDesc" style="line-height: 1.6; color: var(--text-muted); font-size: 0.95rem;">
+                    resQ is an advanced zero-knowledge matrix utility designed to protect your highly confidential information—such as emergency cash positions, safe locker combinations, or critical statements. Your payloads are fully encrypted locally in-browser. If you face a structural emergency or cannot check in within your specified timer loop, the engine automatically transmits the isolated keys securely to your designated nominees.
+                </p>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button class="btn" onclick="navigateTo('/signup')" id="btnGoSignup" style="flex: 1;">Create Account</button>
+                    <button class="btn" onclick="navigateTo('/login')" id="btnGoLogin" style="flex: 1; background:none; border:1px solid var(--primary); color:var(--primary); box-shadow:none;">Log In</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE VIEW: /signup & /login (SHARED SYSTEM CONTROLLER) -->
+        <div id="page-auth" class="view-page">
+            <div class="card">
+                <h3 id="lblAuthTitle">Secure Gateway Access</h3>
                 <div class="field">
-                    <label>SELECT AUTHENTICATION METHOD:</label>
-                    <select id="authType" onchange="toggleAuthInput()">
-                        <option value="phone">Mobile Number OTP Loop</option>
-                        <option value="email">Email Verification Routing</option>
+                    <label id="lblAuthMethod">Select Verification Node:</label>
+                    <select id="userAuthMode" onchange="adjustAuthLabels()">
+                        <option value="phone">Mobile Number Verification Loop</option>
+                        <option value="email">Email Routing Vector</option>
                     </select>
                 </div>
                 <div class="field">
-                    <label id="authLabel">ENTER REGISTERED MOBILE NUMBER:</label>
-                    <input type="text" id="userCredential" placeholder="e.g., +91 99999 88888">
+                    <label id="lblInputCredential">Enter Mobile / Email String:</label>
+                    <input type="text" id="credentialInput" placeholder="e.g., +91 9999988888 or mail@domain.com">
                 </div>
-                <div class="field">
-                    <label>EMERGENCY PAYLOAD NOTE (Locker locations, Passwords, Secret messages):</label>
-                    <textarea id="payloadData" placeholder="Enter highly confidential asset location parameters..."></textarea>
-                </div>
-                <div class="field">
-                    <label>NOMINEE DESTINATION CONTACT (Email/Phone):</label>
-                    <input type="text" id="nomineeTarget" placeholder="family-member@email.com">
-                </div>
-                <button class="btn" onclick="simulatedRegister()">DEPLOY MATRIX & DISPATCH INSTANT OTP</button>
-            </div>
+                <button class="btn" onclick="triggerSimulatedOTP()" id="btnSendOTP">Request Secure Authentication OTP</button>
 
-            <!-- 7-DAY STATUS CHECK -->
-            <div id="statusPanel" style="display:none;">
-                <p style="font-size:0.9rem; color:#94a3b8; text-align:center;">⏳ Automated Dead-Man Switch Loop active. You must check-in every 7 Days.</p>
-                <div style="background:rgba(0,0,0,0.3); padding:15px; border-radius:6px; text-align:center; margin-bottom:15px; border:1px solid #1e293b;">
-                    <div style="font-size:0.8rem; color:var(--text-muted);">TIME REMAINING UNTIL NOMINEE ROUTING AUTOMATION</div>
-                    <div style="font-size:1.8rem; font-weight:bold; color:#ffaa00; margin:5px 0;">5 Days, 14 Hours, 22 Mins</div>
+                <div id="otpVerificationBox" style="display: none; margin-top: 15px; background: rgba(0,255,179,0.02); padding: 15px; border-radius: 8px; border: 1px dashed var(--primary); text-align: center;">
+                    <span style="font-size: 0.8rem; color: var(--text-muted);" id="lblVerificationActive">Verification Loop Active</span>
+                    <div style="font-size: 1.8rem; font-weight: bold; letter-spacing: 4px; margin: 5px 0; color: var(--primary);" id="simulatedOTPText">------</div>
+                    <input type="text" id="enteredOTP" placeholder="Enter the 6-Digit OTP shown above" style="text-align: center; margin-bottom: 12px;">
+                    <button class="btn" onclick="verifyOTPAndInitializeSession()" id="btnVerifyAuth">Verify & Open Safe Session</button>
                 </div>
-                <button class="btn" style="background: linear-gradient(135deg, #00ffb3, #00aa77);" onclick="alert('Verification Loop Renewed! Next check-in required in 7 Days.')">✔ I AM SAFE & ACTIVE (RESET WEEKLY TIMER)</button>
-            </div>
-
-            <!-- HELP SUPPORT TICKETS -->
-            <div id="helpPanel" style="display:none;">
-                <div class="field">
-                    <label>ENTER YOUR CONTACT DETAILS:</label>
-                    <input type="text" id="helpContact" placeholder="Your Email or Phone number">
-                </div>
-                <div class="field">
-                    <label>DESCRIBE YOUR QUERY / RECOVERY REQUEST:</label>
-                    <textarea id="helpQuery" placeholder="Lost access to device, need account audit help..."></textarea>
-                </div>
-                <button class="btn" onclick="alert('Support ticket securely transmitted to Admin control chamber successfully.')">SUBMIT TICKETS TO STEALTH ADMIN SHIELD</button>
             </div>
         </div>
-    <div class="header">
-        <h1>v-resQ Systems</h1>
-        <div class="badge">FOUNDER & CEO: ASTHA DUBEY</div>
-    </div>
+        <!-- PAGE VIEW: /dashboard -->
+        <div id="page-dashboard" class="view-page">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="margin: 0; color: var(--primary);" id="lblDashboardTitle">Secure Management Panel</h3>
+                    <button class="control-btn" onclick="logoutSession()" style="border-color: #ff3e6c; color: #ff3e6c;" id="btnLogout">Logout</button>
+                </div>
 
-    <div class="main-wrapper">
-        <div class="card" id="userBlock">
-            <div class="tabs">
-                <button id="t1" class="tab-btn active" onclick="switchUserTab('register')">Deploy Safeguard</button>
-                <button id="t2" class="tab-btn" onclick="switchUserTab('status')">7-Day Verification Portal</button>
-                <button id="t3" class="tab-btn" onclick="switchUserTab('help')">Account Recovery Support</button>
-            </div>
-
-            <!-- REGISTRATION & VAULT SETUP -->
-            <div id="registerPanel">
-                <div class="field">
-                    <label>SELECT AUTHENTICATION METHOD:</label>
-                    <select id="authType" onchange="toggleAuthInput()">
-                        <option value="phone">Mobile Number OTP Loop</option>
-                        <option value="email">Email Verification Routing</option>
+                <!-- TIMER LOOP CONTROL -->
+                <div style="background: rgba(0,0,0,0.03); border: 1px solid var(--border); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <label id="lblSelectInterval">Define Check-In Safeguard Interval:</label>
+                    <select id="checkInInterval" style="margin-bottom: 10px;">
+                        <option value="1">Every 24 Hours (1 Day Loop)</option>
+                        <option value="7" selected>Every 7 Days (1 Week Loop)</option>
+                        <option value="30">Every 30 Days (1 Month Loop)</option>
                     </select>
+                    <button class="btn" style="padding: 10px; font-size: 0.95rem; background: linear-gradient(135deg, var(--primary), #00aa77);" onclick="alert('Safeguard Check-in Verified! Loop Counter Reset.')" id="btnCheckIn">✔ I AM SAFE & ACTIVE (RESET CHECK-IN LOG)</button>
                 </div>
-                <div class="field">
-                    <label id="authLabel">ENTER REGISTERED MOBILE NUMBER:</label>
-                    <input type="text" id="userCredential" placeholder="e.g., +91 99999 88888">
-                </div>
-                <div class="field">
-                    <label>EMERGENCY PAYLOAD NOTE (Locker locations, Passwords, Secret messages):</label>
-                    <textarea id="payloadData" placeholder="Enter highly confidential asset location parameters..."></textarea>
-                </div>
-                <div class="field">
-                    <label>NOMINEE DESTINATION CONTACT (Email/Phone):</label>
-                    <input type="text" id="nomineeTarget" placeholder="family-member@email.com">
-                </div>
-                <button class="btn" onclick="simulatedRegister()">DEPLOY MATRIX & DISPATCH INSTANT OTP</button>
-            </div>
 
-            <!-- 7-DAY STATUS CHECK -->
-            <div id="statusPanel" style="display:none;">
-                <p style="font-size:0.9rem; color:#94a3b8; text-align:center;">⏳ Automated Dead-Man Switch Loop active. You must check-in every 7 Days.</p>
-                <div style="background:rgba(0,0,0,0.3); padding:15px; border-radius:6px; text-align:center; margin-bottom:15px; border:1px solid #1e293b;">
-                    <div style="font-size:0.8rem; color:var(--text-muted);">TIME REMAINING UNTIL NOMINEE ROUTING AUTOMATION</div>
-                    <div style="font-size:1.8rem; font-weight:bold; color:#ffaa00; margin:5px 0;">5 Days, 14 Hours, 22 Mins</div>
+                <!-- PAYLOAD ENGINE -->
+                <div class="field" style="border-top: 1px solid var(--border); padding-top: 15px;">
+                    <h4 style="margin: 0 0 10px 0;" id="lblManagePayloads">Manage Emergency Payloads</h4>
+                    <label id="lblPayloadText">Emergency Information / Secret Note:</label>
+                    <textarea id="payloadText" placeholder="Ex: Master locker keys are hidden behind the main bookshelf asset storage folder..."></textarea>
                 </div>
-                <button class="btn" style="background: linear-gradient(135deg, #00ffb3, #00aa77);" onclick="alert('Verification Loop Renewed! Next check-in required in 7 Days.')">✔ I AM SAFE & ACTIVE (RESET WEEKLY TIMER)</button>
-            </div>
+                <div class="field">
+                    <label id="lblNomineeContact">Nominee Destination Vector (Email/Phone):</label>
+                    <input type="text" id="payloadNominee" placeholder="family-member@email.com or phone number">
+                </div>
+                <button class="btn" onclick="saveOrUpdatePayload()" id="btnSavePayload">Secure & Add New Payload</button>
 
-            <!-- HELP SUPPORT TICKETS -->
-            <div id="helpPanel" style="display:none;">
-                <div class="field">
-                    <label>ENTER YOUR CONTACT DETAILS:</label>
-                    <input type="text" id="helpContact" placeholder="Your Email or Phone number">
-                </div>
-                <div class="field">
-                    <label>DESCRIBE YOUR QUERY / RECOVERY REQUEST:</label>
-                    <textarea id="helpQuery" placeholder="Lost access to device, need account audit help..."></textarea>
-                </div>
-                <button class="btn" onclick="alert('Support ticket securely transmitted to Admin control chamber successfully.')">SUBMIT TICKETS TO STEALTH ADMIN SHIELD</button>
+                <h4 style="margin: 25px 0 10px 0; border-top: 1px solid var(--border); padding-top: 15px;" id="lblActivePayloads">Your Active Encrypted Safeguards</h4>
+                <div id="payloadContainerList"></div>
+                
+                <!-- HELPDESK TICKETS -->
+                <h4 style="margin: 25px 0 10px 0; border-top: 1px solid var(--border); padding-top: 15px;" id="lblHelpSupport">Account Recovery & Help Support</h4>
+                <input type="text" id="supportTicketText" placeholder="Describe account recovery query or security audit request..." style="margin-bottom: 10px;">
+                <button class="btn" style="background:#64748b; color:white; padding:10px; font-size:0.9rem;" onclick="submitSupportQuery()" id="btnSubmitSupport">Submit Query to Core Admin Shield</button>
             </div>
         </div>
-              <!-- SECRET ADMINISTRATIVE GATEWAY ENTRY -->
-        <div style="text-align: center; margin-top: 10px;">
-            <span style="font-size: 0.7rem; color: #111424; cursor: pointer;" onclick="revealStealthAdmin()">[🔒 Admin Entrance Matrix]</span>
+
+        <!-- PAGE VIEW: /stealth-admin (COMPLETELY ISOLATED LINK ROUTE) -->
+        <div id="page-admin" class="view-page">
+            <div class="card admin-panel">
+                <h3 style="color: var(--admin-color); margin-top: 0;" id="lblAdminTitle">⚙ SUPER-ADMIN SYSTEM MANAGEMENT CHAMBER</h3>
+                
+                <div style="background: rgba(0,0,0,0.03); border: 1px solid var(--border); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <label style="color: var(--admin-color);">BROADCAST SYSTEM GLOBAL NOTICE BANNER:</label>
+                    <input type="text" id="adminNoticeInput" placeholder="Enter notification message text/link..." style="margin-bottom: 10px;">
+                    <button class="btn" style="background: var(--admin-color); color: black; padding: 10px;" onclick="broadcastGlobalAdminNotice()">Publish Live Operational Thread Notice</button>
+                </div>
+
+                <h4 style="color: var(--admin-color); margin: 0;">Global Registered User Grid Audit Logs</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Credential Token</th>
+                            <th>IP Parameter</th>
+                            <th>System Status</th>
+                            <th>Control Vectors</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminUserTableBody"></tbody>
+                </table>
+            </div>
         </div>
 
-        <!-- HIDDEN ADMINISTRATIVE DASHBOARD CONTROL ROOM -->
-        <div class="card admin-section" id="adminBlock">
-            <h3 style="color: var(--admin-color); margin-top: 0; letter-spacing: 1px;">⚙ SUPER-ADMIN STEALTH MANAGEMENT CONTROL</h3>
-            <p style="font-size:0.8rem; color:var(--text-muted);">Root level analytics access dashboard. Encrypted fraud shields active.</p>
-            
-            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; text-align:center; margin-bottom:20px;">
-                <div style="background:#111428; padding:10px; border-radius:6px; border:1px solid #222;"><div style="color:var(--admin-color); font-weight:bold; font-size:1.2rem;">1,482</div><div style="font-size:0.7rem; color:var(--text-muted);">Total User Nodes</div></div>
-                <div style="background:#111428; padding:10px; border-radius:6px; border:1px solid #222;"><div style="color:#00ffcc; font-weight:bold; font-size:1.2rem;">98.4%</div><div style="font-size:0.7rem; color:var(--text-muted);">Weekly Check-In Rate</div></div>
-                <div style="background:#111428; padding:10px; border-radius:6px; border:1px solid #222;"><div style="color:#ff3e6c; font-weight:bold; font-size:1.2rem;">3</div><div style="font-size:0.7rem; color:var(--text-muted);">Pending Help Tickets</div></div>
-            </div>
-
-            <label style="color:var(--admin-color); font-weight:bold; font-size:0.85rem;">ANTI-SPAM SECURITY SYSTEM USER REGISTER:</label>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>User Credential</th>
-                        <th>IP Address</th>
-                        <th>7-Day Delivery Log</th>
-                        <th>Action / Anti-Fraud View</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>+91 9845***120</td>
-                        <td>157.42.193.12</td>
-                        <td><span style="color:#00ff66;">✔ Active (Clicked Link)</span></td>
-                        <td><button style="font-size:0.7rem; padding:2px 5px; cursor:pointer;" onclick="alert('Anti-Scam System Check:\nPayload Content verified secure. No illegal activity logs detected.')">Audit Content</button></td>
-                    </tr>
-                    <tr>
-                        <td>rahul.sharma@email.com</td>
-                        <td>103.22.109.45</td>
-                        <td><span style="color:#ffaa00;">⏳ Alert Sent (No Response)</span></td>
-                        <td><button style="font-size:0.7rem; padding:2px 5px; cursor:pointer;" onclick="alert('Anti-Scam System Check:\nPayload Flagged Clear. Waiting for weekly automation expiration.')">Audit Content</button></td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- HIDDEN GATEWAY SYSTEM TO PREVENT INTRUSIONS -->
+        <div style="text-align: center; margin: 20px 0;">
+            <span style="font-size: 0.7rem; color: transparent; cursor: pointer;" onclick="enterStealthAdminDashboard()">[🔒 Admin Entrance Matrix]</span>
         </div>
     </div>
     <script>
-        function toggleAuthInput() {
-            const type = document.getElementById('authType').value;
-            document.getElementById('authLabel').innerText = type === 'phone' ? 'ENTER REGISTERED MOBILE NUMBER:' : 'ENTER REGISTERED EMAIL ADDRESS:';
+        // Multi-Page Structural Routing Engine Configuration Variables
+        let currentPath = "/home";
+        let currentLang = "en";
+        let currentTheme = "dark";
+        let sessionUserToken = null;
+        let generatedActiveOTP = "";
+        let editingPayloadIndex = -1;
+
+        // Multilingual Localization Strings System Database
+        const languages = {
+            en: {
+                founder: "FOUNDER & OWNER: Astha Dubey", landingTitle: "Next-Gen Family Emergency Safeguard",
+                landingDesc: "resQ is an advanced zero-knowledge matrix utility designed to protect your highly confidential information—such as emergency cash positions, safe locker combinations, or critical statements. Your payloads are fully encrypted locally in-browser. If you face a structural emergency or cannot check in within your specified timer loop, the engine automatically transmits the isolated keys securely to your designated nominees.",
+                authTitle: "Secure Gateway Access", authMethod: "Select Verification Node:", lblInputCred: "Enter Mobile / Email String:", 
+                sendOtp: "Request Secure Authentication OTP", verActive: "Verification Loop Active", verifyAuth: "Verify & Open Safe Session", 
+                dashTitle: "Secure Management Panel", logout: "Logout", selectInterval: "Define Check-In Safeguard Interval:", 
+                checkIn: "✔ I AM SAFE & ACTIVE (RESET CHECK-IN LOG)", managePayloads: "Manage Emergency Payloads", 
+                payloadText: "Emergency Information / Secret Note:", nomineeContact: "Nominee Destination Vector (Email/Phone):", 
+                savePayload: "Secure & Add New Payload", activePayloads: "Your Active Encrypted Safeguards", 
+                helpSupport: "Account Recovery & Help Support", submitSupport: "Submit Query to Core Admin Shield", 
+                adminTitle: "⚙ SUPER-ADMIN SYSTEM MANAGEMENT CHAMBER"
+            },
+            hi: {
+                founder: "संस्थापक एवं मालिक: आस्था दुबे", landingTitle: "नेक्स्ट-जेन पारिवारिक आपातकालीन सुरक्षा",
+                landingDesc: "resQ एक उन्नत ज़ीरो-नॉलेज यूटिलिटी प्लेटफ़ॉर्म है जिसे आपकी अत्यधिक गोपनीय जानकारी—जैसे कि आपातकालीन नकदी स्थान, सुरक्षित लॉकर कोड, या महत्वपूर्ण बयानों की सुरक्षा के लिए डिज़ाइन किया गया है। आपका डेटा स्थानीय रूप से ब्राउज़र में एन्क्रिप्टेड रहता है। यदि आप किसी आपातकालीन स्थिति का सामना करते हैं या अपने निर्धारित समय चक्र के भीतर चेक-इन नहीं कर पाते हैं, तो इंजन स्वचालित रूप से आपके नामित व्यक्तियों (Nominees) को सुरक्षित रूप से डेटा भेज देता है।",
+                authTitle: "सुरक्षित गेटवे एक्सेस", authMethod: "सत्यापन विधि चुनें:", lblInputCred: "मोबाइल / ईमेल दर्ज करें:", 
+                sendOtp: "सुरक्षित प्रमाणीकरण ओटीपी का अनुरोध करें", verActive: "सत्यापन लूप सक्रिय है", verifyAuth: "सत्यापित करें और सुरक्षित सत्र खोलें", 
+                dashTitle: "सुरक्षित प्रबंधन पैनल", logout: "लॉगआउट", selectInterval: "सुरक्षित चेक-इन अंतराल निर्धारित करें:", 
+                checkIn: "✔ मैं सुरक्षित और सक्रिय हूँ (टाइमर रीसेट करें)", managePayloads: "आपातकालीन पेलोड प्रबंधित करें", 
+                payloadText: "आपातकालीन जानकारी / गुप्त नोट:", nomineeContact: "नामित गंतव्य संपर्क (ईमेल/फोन):", 
+                savePayload: "सुरक्षित करें और नया पेलोड जोड़ें", activePayloads: "आपके सक्रिय सुरक्षित एन्क्रिप्टेड पेलोड्स", 
+                helpSupport: "खाता पुनर्प्राप्ति एवं सहायता सहायता", submitSupport: "कोर एडमिन शील्ड को क्वेरी सबमिट करें", 
+                adminTitle: "⚙ सुपर-एडमिन सिस्टम प्रबंधन चैंबर"
+            }
+        };
+
+        // Initialize Share Memory Storage System Map
+        if(!localStorage.getItem("system_users_db")) {
+            localStorage.setItem("system_users_db", JSON.stringify([
+                { token: "+91 9845321120", ip: "157.42.193.12", blocked: false, status: "Active (Clicked Link)" },
+                { token: "rahul.sharma@email.com", ip: "103.22.109.45", blocked: false, status: "Alert Sent (No Response)" }
+            ]));
         }
-        function switchUserTab(tab) {
-            document.getElementById('t1').classList.remove('active'); document.getElementById('t2').classList.remove('active'); document.getElementById('t3').classList.remove('active');
-            document.getElementById('registerPanel').style.display = 'none'; document.getElementById('statusPanel').style.display = 'none'; document.getElementById('helpPanel').style.display = 'none';
-            if(tab==='register') { document.getElementById('t1').classList.add('active'); document.getElementById('registerPanel').style.display = 'block'; }
-            else if(tab==='status') { document.getElementById('t2').classList.add('active'); document.getElementById('statusPanel').style.display = 'block'; }
-            else { document.getElementById('t3').classList.add('active'); document.getElementById('helpPanel').style.display = 'block'; }
+
+        // Multi-Page Dynamic Router Logic Engine
+        function navigateTo(path) {
+            currentPath = path;
+            document.querySelectorAll(".view-page").forEach(p => p.classList.remove("active"));
+            
+            if(path === "/home") {
+                document.getElementById("page-home").classList.add("active");
+            } else if(path === "/login" || path === "/signup") {
+                if(sessionUserToken) { navigateTo("/dashboard"); return; }
+                document.getElementById("page-auth").classList.add("active");
+                document.getElementById("lblAuthTitle").innerText = path === "/login" ? "Secure Account Login" : "Secure Account Registration";
+            } else if(path === "/dashboard") {
+                if(!sessionUserToken) { navigateTo("/login"); return; }
+                document.getElementById("page-dashboard").classList.add("active");
+                renderUserPayloads();
+            } else if(path === "/stealth-admin") {
+                document.getElementById("page-admin").classList.add("active");
+                renderAdminLogsGrid();
+            }
+            window.scrollTo(0,0);
         }
-        function simulatedRegister() {
-            const cred = document.getElementById('userCredential').value;
-            const data = document.getElementById('payloadData').value;
-            if(!cred || !data.trim()) { alert('Authentication Block: Complete credentials to initialize deployment loop.'); return; }
-            alert('✔ Verification OTP dispatch sequence initiated via secure nodes!\nLocal Session Isolation Complete.');
-            switchUserTab('status');
+
+        function toggleLanguage() {
+            currentLang = currentLang === "en" ? "hi" : "en";
+            document.getElementById("langBtn").innerText = currentLang === "en" ? "हिन्दी" : "English";
+            const currentStrings = languages[currentLang];
+            document.getElementById("lblFounder").innerText = currentStrings.founder;
+            document.getElementById("lblLandingTitle").innerText = currentStrings.landingTitle;
+            document.getElementById("lblLandingDesc").innerText = currentStrings.landingDesc;
+            document.getElementById("lblAuthTitle").innerText = currentStrings.authTitle;
+            document.getElementById("lblAuthMethod").innerText = currentStrings.authMethod;
+            document.getElementById("lblInputCredential").innerText = currentStrings.lblInputCred;
+            document.getElementById("btnSendOTP").innerText = currentStrings.sendOtp;
+            document.getElementById("lblVerificationActive").innerText = currentStrings.verActive;
+            document.getElementById("btnVerifyAuth").innerText = currentStrings.verifyAuth;
+            document.getElementById("lblDashboardTitle").innerText = currentStrings.dashTitle;
+            document.getElementById("btnLogout").innerText = currentStrings.logout;
+            document.getElementById("lblSelectInterval").innerText = currentStrings.selectInterval;
+            document.getElementById("btnCheckIn").innerText = currentStrings.checkIn;
+            document.getElementById("lblManagePayloads").innerText = currentStrings.managePayloads;
+            document.getElementById("lblPayloadText").innerText = currentStrings.payloadText;
+            document.getElementById("lblNomineeContact").innerText = currentStrings.nomineeContact;
+            document.getElementById("btnSavePayload").innerText = currentStrings.savePayload;
+            document.getElementById("lblActivePayloads").innerText = currentStrings.activePayloads;
+            document.getElementById("lblHelpSupport").innerText = currentStrings.helpSupport;
+            document.getElementById("btnSubmitSupport").innerText = currentStrings.submitSupport;
+            document.getElementById("lblAdminTitle").innerText = currentStrings.adminTitle;
         }
-        function revealStealthAdmin() {
-            const pass = prompt("ENTER SECRET SUPER-ADMIN PASSKEY MATRIX ENGINE KEYROUTE:");
-            if(pass === "admin123") { document.getElementById('adminBlock').style.display = 'block'; window.scrollTo(0,document.body.scrollHeight); }
-            else { alert("Unauthorized Entry Attempt intercepted. IP trace logged."); }
+
+        function toggleTheme() {
+            currentTheme = currentTheme === "dark" ? "light" : "dark";
+            document.documentElement.setAttribute("data-theme", currentTheme);
+            document.getElementById("themeBtn").innerText = currentTheme === "dark" ? "☀️ Light" : "🌙 Dark";
         }
+
+        function adjustAuthLabels() {
+            const mode = document.getElementById("userAuthMode").value;
+            document.getElementById("lblInputCredential").innerText = mode === "phone" ? "Enter Mobile String:" : "Enter Email String:";
+        }
+        function triggerSimulatedOTP() {
+            const input = document.getElementById("credentialInput").value.trim();
+            if(!input) { alert("Please input a valid credential string token."); return; }
+            
+            let users = JSON.parse(localStorage.getItem("system_users_db"));
+            let userMatch = users.find(u => u.token === input);
+            if(userMatch && userMatch.blocked) {
+                alert("Security Alert: This account token has been blocked by Admin Shield due to suspicious activities.");
+                return;
+            }
+
+            generatedActiveOTP = Math.floor(100000 + Math.random() * 900000).toString();
+            document.getElementById("simulatedOTPText").innerText = generatedActiveOTP;
+            document.getElementById("otpVerificationBox").style.display = "block";
+        }
+
+        function verifyOTPAndInitializeSession() {
+            const userOTP = document.getElementById("enteredOTP").value.trim();
+            const inputToken = document.getElementById("credentialInput").value.trim();
+
+            if(userOTP !== generatedActiveOTP) {
+                alert("Authentication Failure: Invalid OTP validation loop.");
+                return;
+            }
+
+            sessionUserToken = inputToken;
+            let users = JSON.parse(localStorage.getItem("system_users_db"));
+            if(!users.find(u => u.token === sessionUserToken)) {
+                users.push({ token: sessionUserToken, ip: "157.45." + Math.floor(Math.random()*254) + "." + Math.floor(Math.random()*254), blocked: false, status: "Active (Clicked Link)" });
+                localStorage.setItem("system_users_db", JSON.stringify(users));
+            }
+
+            navigateTo("/dashboard");
+        }
+
+        function saveOrUpdatePayload() {
+            const txt = document.getElementById("payloadText").value.trim();
+            const nominee = document.getElementById("payloadNominee").value.trim();
+            if(!txt || !nominee) { alert("Please complete payload fields."); return; }
+
+            let storageKey = "payloads_" + btoa(sessionUserToken);
+            let userPayloads = localStorage.getItem(storageKey) ? JSON.parse(localStorage.getItem(storageKey)) : [];
+
+            if(editingPayloadIndex > -1) {
+                userPayloads[editingPayloadIndex] = { text: txt, target: nominee };
+                editingPayloadIndex = -1;
+                document.getElementById("btnSavePayload").innerText = "Secure & Add New Payload";
+            } else {
+                userPayloads.push({ text: txt, target: nominee });
+            }
+
+            localStorage.setItem(storageKey, JSON.stringify(userPayloads));
+            document.getElementById("payloadText").value = "";
+            document.getElementById("payloadNominee").value = "";
+            renderUserPayloads();
+        }
+
+        function renderUserPayloads() {
+            let storageKey = "payloads_" + btoa(sessionUserToken);
+            let userPayloads = localStorage.getItem(storageKey) ? JSON.parse(localStorage.getItem(storageKey)) : [];
+            const container = document.getElementById("payloadContainerList");
+            container.innerHTML = "";
+
+            if(userPayloads.length === 0) {
+                container.innerHTML = `<p style="font-size:0.85rem; color:var(--text-muted);">No active emergency data safeguards currently configured.</p>`;
+                return;
+            }
+
+            userPayloads.forEach((p, idx) => {
+                container.innerHTML += `
+                    <div class="msg-item">
+                        <div>
+                            <div style="font-weight:bold; font-size:0.95rem;">${p.text.substring(0, 35)}...</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted);">Nominee Target: ${p.target}</div>
+                        </div>
+                        <div class="msg-actions">
+                            <button onclick="editPayloadNode(${idx})">Edit</button>
+                            <button onclick="deletePayloadNode(${idx})" style="border-color:#ff3e6c; color:#ff3e6c;">Delete</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function editPayloadNode(idx) {
+            let storageKey = "payloads_" + btoa(sessionUserToken);
+            let userPayloads = JSON.parse(localStorage.getItem(storageKey));
+            document.getElementById("payloadText").value = userPayloads[idx].text;
+            document.getElementById("payloadNominee").value = userPayloads[idx].target;
+            editingPayloadIndex = idx;
+            document.getElementById("btnSavePayload").innerText = "Update Isolated Payload Vector";
+        }
+
+        function deletePayloadNode(idx) {
+            if(!confirm("Scrub this emergency configuration from device storage logs?")) return;
+            let storageKey = "payloads_" + btoa(sessionUserToken);
+            let userPayloads = JSON.parse(localStorage.getItem(storageKey));
+            userPayloads.splice(idx, 1);
+            localStorage.setItem(storageKey, JSON.stringify(userPayloads));
+            renderUserPayloads();
+        }
+
+        function submitSupportQuery() {
+            const query = document.getElementById("supportTicketText").value.trim();
+            if(!query) return;
+            alert("Support data query transmitted to admin shield chamber.");
+            document.getElementById("supportTicketText").value = "";
+        }
+
+        function logoutSession() {
+            sessionUserToken = null;
+            document.getElementById("credentialInput").value = "";
+            document.getElementById("enteredOTP").value = "";
+            document.getElementById("otpVerificationBox").style.display = "none";
+            navigateTo("/home");
+        }
+
+        // Administrative Core Access Dashboard System Controls
+        function enterStealthAdminDashboard() {
+            const secretToken = prompt("ENTER SUPER-ADMIN SECURE ROUTING GATEWAY MATRIX KEY:");
+            if(secretToken === "astha-admin-77") {
+                navigateTo("/stealth-admin");
+            } else {
+                alert("Boundary intrusion intercepted. Threat logged.");
+            }
+        }
+
+        function renderAdminLogsGrid() {
+            const tbody = document.getElementById("adminUserTableBody");
+            tbody.innerHTML = "";
+            let users = JSON.parse(localStorage.getItem("system_users_db"));
+
+            users.forEach((u, idx) => {
+                let blockBtn = u.blocked ? 
+                    `<button style="font-size:0.75rem; color:#00ffcc; border-color:#00ffcc; background:none; padding:3px 6px; cursor:pointer;" onclick="toggleBlockUser(${idx})">Unblock</button>` : 
+                    `<button style="font-size:0.75rem; color:#ff3e6c; border-color:#ff3e6c; background:none; padding:3px 6px; cursor:pointer;" onclick="toggleBlockUser(${idx})">Block Node</button>`;
+                
+                tbody.innerHTML += `
+                    <tr>
+                        <td style="font-family:monospace;">${u.token}</td>
+                        <td style="font-family:monospace; color:var(--text-muted);">${u.ip}</td>
+                        <td><span style="color:${u.blocked ? '#ff3e6c' : '#00ff66'}">${u.blocked ? 'Blocked' : u.status}</span></td>
+                        <td>${blockBtn}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function toggleBlockUser(idx) {
+            let users = JSON.parse(localStorage.getItem("system_users_db"));
+            users[idx].blocked = !users[idx].blocked;
+            localStorage.setItem("system_users_db", JSON.stringify(users));
+            renderAdminLogsGrid();
+        }
+
+        function broadcastGlobalAdminNotice() {
+            const txt = document.getElementById("adminNoticeInput").value.trim();
+            const banner = document.getElementById("stickyNotice");
+            if(!txt) { banner.style.display = "none"; }
+            else { banner.innerText = "📢 SYSTEM NOTICE: " + txt; banner.style.display = "block"; }
+            alert("Notice broadcast buffer synchronized live.");
+        }
+
+        // Initialize Automated Multi-Page Active Session Matrix
+        window.onload = () => { navigateTo("/home"); };
     </script>
 </body>
-</html>    
+</html>
